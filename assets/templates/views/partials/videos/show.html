@@ -1,0 +1,71 @@
+<ul class="breadcrumb">
+  <li><a href="#/index">Home</a></li>
+  <li><a href="#/videos">Videos</a></li>
+  <li class="active">Video</li>
+</ul>
+
+<div class="page-header">
+  <h1>Video</h1>
+  <a class="btn btn-primary" ng-href="#/videos/{{instance.id}}/edit">
+    <i class="fa fa-pencil"></i>
+    Edit
+  </a>
+</div>
+
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+</div>
+
+<table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>{{instance.id}}</td>
+    </tr>
+    <tr>
+      <td>Desc</td>
+      <td>{{instance.desc}}</td>
+    </tr>
+    <tr>
+      <td>Is Active</td>
+      <td>{{instance.is_active}}</td>
+    </tr>
+    <tr>
+      <td>Keywords</td>
+      <td>{{instance.keywords}}</td>
+    </tr>
+    <tr>
+      <td>Length</td>
+      <td>{{instance.length}}</td>
+    </tr>
+    <tr>
+      <td>Question Group</td>
+      <td>{{instance.question_group}}</td>
+    </tr>
+    <tr>
+      <td>Sort Order</td>
+      <td>{{instance.sort_order}}</td>
+    </tr>
+    <tr>
+      <td>Source Version</td>
+      <td>{{instance.source_version}}</td>
+    </tr>
+    <tr>
+      <td>Target Number</td>
+      <td>{{instance.target_number}}</td>
+    </tr>
+    <tr>
+      <td>Title</td>
+      <td>{{instance.title}}</td>
+    </tr>
+    <tr>
+      <td>Topic</td>
+      <td>{{instance.topic_id}}</td>
+    </tr>
+    <tr>
+      <td>Video Url</td>
+      <td>{{instance.video_url}}</td>
+    </tr>
+  </tbody>
+</table>

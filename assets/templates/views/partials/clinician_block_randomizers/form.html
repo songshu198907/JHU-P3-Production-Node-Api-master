@@ -1,0 +1,47 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="id" label="Id" required="false" property="instance.id" type="number" errors="errors.id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="clinician_code_id" label="Clinician code" required="true" property="instance.clinician_code_id" type="number" errors="errors.clinician_code_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="intervention_group" label="Intervention group" required="false" property="instance.intervention_group" type="text" errors="errors.intervention_group"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="patient_type" label="Patient type" required="true" property="instance.patient_type" type="text" errors="errors.patient_type"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/clinician_block_randomizers" class="btn">Cancel</a>
+</div>

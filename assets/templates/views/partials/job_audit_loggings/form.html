@@ -1,0 +1,38 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="created_at" label="Created at" required="false" property="instance.created_at" type="text" errors="errors.created_at"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="name" label="Name" required="true" property="instance.name" type="text" errors="errors.name"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="rows_effected" label="Rows effected" required="false" property="instance.rows_effected" type="text" errors="errors.rows_effected"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/job_audit_loggings" class="btn">Cancel</a>
+</div>

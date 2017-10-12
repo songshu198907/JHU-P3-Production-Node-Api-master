@@ -1,0 +1,4743 @@
+<h1><strong><em>vaccinesurvey</em></strong> API Documentation</h1>
+
+<h2>Description</h2>
+
+<p>This document contains all relevant API information for the application &quot;vaccinesurvey&quot;.</p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#/docs#installing-dependencies">Installing Dependencies</a>
+
+<ul>
+<li><a href="#/docs#node-and-npm">Node and NPM</a></li>
+<li><a href="#/docs#dependencies">Dependencies</a></li>
+</ul></li>
+<li><a href="#/docs#seeding-the-app">Seeding the App</a></li>
+<li><a href="#/docs#running-the-app">Running the App</a>
+
+<ul>
+<li><a href="#/docs#development-vs-production-mode">Development vs. Production Mode</a></li>
+</ul></li>
+<li><a href="#/docs#running-the-test-suite">Running the Test Suite</a></li>
+<li><a href="#/docs#connecting-to-the-app-console">Connecting to the App Console</a></li>
+<li><a href="#/docs#jobs-and-scheduling">Jobs and Scheduling</a>
+
+<ul>
+<li><a href="#/docs#manually-executing-jobs">Manually Executing Jobs</a></li>
+</ul></li>
+<li><a href="#/docs#authentication">Authentication</a></li>
+<li><a href="#/docs#crud-and-query-scope-requests">CRUD and Query Scope Requests</a></li>
+<li><a href="#/docs#push-notifications">Push Notifications</a></li>
+<li><a href="#/docs#file-uploads">File Uploads</a></li>
+<li><a href="#/docs#programmatic-crud-and-query-scope-calls">Programmatic CRUD and Query Scope Calls</a></li>
+<li><a href="#/docs#roles">Roles</a></li>
+<li><a href="#/docs#api-versions">API Versions</a></li>
+<li><a href="#/docs#storage-interfaces">Storage Interfaces</a></li>
+</ul>
+
+<h2><a name="installing-dependencies"></a> Installing Dependencies</h2>
+
+<h3><a name='node-and-npm'></a> Node and NPM</h3>
+
+<p>The link at the bottom of this section contains all the installers for node.
+This applications engines are located in the package.json file or below:</p>
+
+<pre><code class="json">{
+  &#39;node&#39;: &#39;4.4.3&#39;,
+  &#39;npm&#39;: &#39;2.15.1&#39;
+}
+</code></pre>
+
+<p>From the above example, you would find the v4.4.3 installer for your platform
+and use that to setup node. Note that the installer also includes NPM and
+should already be the correct version listed here and in the package.json file.</p>
+
+<p><a href="https://nodejs.org/dist/">Node Distributables</a></p>
+
+<h3><a name='dependencies'></a> Dependencies</h3>
+
+<p>Once you have node and NPM installed, you can install the global dependencies
+required by the application as well as all the local dependencies the application
+requires to run. All of those commands should be executed from the application&#39;s
+root directory, unless noted otherwise.</p>
+
+<p>First, install grunt-cli in order to execute grunt tasks:</p>
+
+<pre><code>npm install grunt-cli -g
+</code></pre>
+
+<p>Next, install all of the application&#39;s local dependencies. This could take a while
+as it downloads and compiles all dependencies.</p>
+
+<pre><code>npm install
+</code></pre>
+
+<p>You will also need to install MongoDB and have it running on your system locally.
+Visit the link below for instructions on setting up MongoDB for your platform:</p>
+
+<h3><a href="http://docs.mongodb.org/manual/installation/">MongoDB Installation Instructions</a></h3>
+
+<h3>Oracle database dependencies</h3>
+
+<p>Oracle database requires Oracle 11.2 or 12.1 client libraries. These are included in Oracle Instant Client RPMs or ZIPs, 
+a full Oracle Client, or a database on the same machine.  Oracle&#39;s standard client-server network compatibility applies, 
+which enables connection to databases with different versions from the Oracle client library version.</p>
+
+<p>Python 2.7 is needed for node-gyp.  Gcc is needed on Linux.  On OS X, install Xcode.</p>
+
+<p>Download the free &#39;Basic&#39; and &#39;SDK&#39; RPMs from <a href="http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html">Oracle Technology Network</a> and
+<a href="http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html#ic_x64_inst">install them</a> as the root user:
+<a href="http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html">Oracle Instant Client</a></p>
+
+<h2><a name="seeding-the-app"></a> Seeding the App</h2>
+
+<p>Everything should be in place to run the application. First, we&#39;ll need to seed
+the initial database with the admin account. </p>
+
+<p>If you have <a href="https://github.com/ddollar/forego">Forego</a> installed on your machine 
+you can execute the following command:</p>
+
+<pre><code>forego run grunt seed
+</code></pre>
+
+<p>If you do not have forego installed, you can use the locally installed node implementation
+by executing:</p>
+
+<pre><code>node ./node_modules/foreman/nf run grunt seed
+</code></pre>
+
+<p>Please note that the path ./node_modules/foreman/nf may have to change if you&#39;re running on 
+a Windows machine.</p>
+
+<p>Once that has finished, you can locate your default username and password by
+executing the following command (on Linux or Mac OS):</p>
+
+<pre><code>grep -A1 email tasks/config/createAdmin.js
+</code></pre>
+
+<p>Which should produce something like:</p>
+
+<pre><code>email: &quot;test@fizz.com&quot;,
+password: &quot;a9c6bd1ac688b671&quot;
+</code></pre>
+
+<p>Otherwise, the fields are located in the file:</p>
+
+<pre><code>tasks/config/createAdmin.js
+</code></pre>
+
+<h2><a name="running-the-app"></a> Running the App</h2>
+
+<p>Executing the following command will start the web server and the background
+processes such as the job scheduler:</p>
+
+<pre><code>PORT=1337 npm start
+</code></pre>
+
+<p>And browse to:</p>
+
+<h3><a href="http://localhost:1337/admin">http://localhost:1337/admin</a></h3>
+
+<p>You can adjust the port by changing the PORT environment variable.</p>
+
+<pre><code>PORT=2222 npm start
+</code></pre>
+
+<p>You can also adjust the instance scaling using the npm script. For example if
+you wanted to have 3 instances of the web process running:</p>
+
+<pre><code>npm start web=3
+</code></pre>
+
+<p>Each process will be started on a separate port, starting from the default or supplied
+port and incrementing up. In this example the default port 5000 would be used and the 
+instances would be listening on ports 5000, 5001 and 5002.</p>
+
+<h3><a name="development-vs-production-mode"></a> Development vs. Production Mode</h3>
+
+<p>You can also use this to execute the app in <strong>production</strong> vs <strong>development</strong>
+mode.</p>
+
+<pre><code>NODE_ENV=production npm start
+</code></pre>
+
+<p>Providing no argument for NODE_ENV starts the app in <strong>development</strong> mode by default.</p>
+
+<h2><a name="running-the-test-suite"></a> Running the Test Suite</h2>
+
+<p>To run the application&#39;s test suite, execute the following command:</p>
+
+<pre><code>npm test
+</code></pre>
+
+<p>You can add custom API test files to:</p>
+
+<pre><code>test/server/
+</code></pre>
+
+<p>Any tests in this folder will be included in the test suite.</p>
+
+<h2><a name="connecting-to-the-app-console"></a> Connecting to the App Console</h2>
+
+<p>The sails framework can also be started in interactive mode with a console.
+To use the console execute:</p>
+
+<pre><code>PORT=1337 npm run console
+</code></pre>
+
+<p>Set the port to any available port that the current application is not running on.</p>
+
+<h2><a name='jobs-and-scheduling'></a> Jobs and Scheduling</h2>
+
+<p>The job scheduler will start automatically when starting the server process using using the
+previously mentioned npm script.</p>
+
+<p>You should see logs from the <strong>clock</strong> process in your output regarding scheduled jobs. The scheduler
+will only schedule and execute the most recent version of your jobs, it will not queue any previous API
+version&#39;s jobs.</p>
+
+<h3><a name="manually-executing-jobs"></a> Manually Executing Jobs</h3>
+
+<p>If you&#39;d like to run a job manually or from a script, you can execute the following command from
+the root directory of our application:</p>
+
+<pre><code>npm run job &lt;job_name&gt;
+</code></pre>
+
+<p>Replacing &lt;job_name&gt; with the name you used to create the job. For example, if you created a job called
+&quot;MonthlyReport&quot;, you would execute:</p>
+
+<pre><code>npm run job MonthlyReport
+</code></pre>
+
+<p>You can also, optionally, supply an API version of the job if you&#39;d like to execute a specific
+version of the job:</p>
+
+<pre><code>npm run job MonthlyReport 2
+</code></pre>
+
+<p>This command would execute version 2 of the MonthlyReport job.</p>
+
+<h2><a name="authentication"></a> Authentication</h2>
+
+<h2>Password (Password) Authentication Strategy</h2>
+
+<p>To login and create a session with the password strategy, simply make a POST
+to following path:</p>
+
+<pre><code>POST /auth/Password/callback
+</code></pre>
+
+<p>Alternatively, you can specify the API version you wish to authenticate against:</p>
+
+<pre><code>POST /auth/v2/Password/callback
+</code></pre>
+
+<p>With a body similar to the following:</p>
+
+<pre><code>{
+  &quot;email&quot;: &quot;test&quot;,
+  &quot;password&quot;: &quot;password&quot;
+}
+</code></pre>
+
+<p>The result of the above call, if the credentials are valid, should be a JSON object
+containing all of the session details.</p>
+
+<h2><a name="crud-and-query-scope-requests"></a> CRUD and Query Scope Requests</h2>
+
+<h2>ClinicianBlockRandomizer</h2>
+
+<p><strong>/api/v2/clinician<em>block</em>randomizers</strong> OR <strong>/api/clinician<em>block</em>randomizers</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;clinicianCodeId&quot;:10395,&quot;interventionGroup&quot;:&quot;Fabricate assuaged&quot;,&quot;patientType&quot;:&quot;Dictionaries Guadalcanal&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a ClinicianBlockRandomizer, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/clinician_block_randomizers
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific ClinicianBlockRandomizer object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/clinician_block_randomizers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/clinician_block_randomizers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/clinician_block_randomizers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for ClinicianBlockRandomizer:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>clinic_id</td>
+<td>sortedByClinicIdScope</td>
+<td>sort by clinic_id and id</td>
+</tr>
+<tr>
+<td>filter<em>by</em>clinic_id</td>
+<td>filterByClinicIdScope</td>
+<td>filter clinic block randomizer data by clinic_id</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/clinician_block_randomizers?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/clinician_block_randomizers?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>ClinicianCode</h2>
+
+<p><strong>/api/v2/clinician_codes</strong> OR <strong>/api/clinician_codes</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;code&quot;:&quot;Arches masquerading&quot;,&quot;name&quot;:&quot;Celeste Douglas&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a ClinicianCode, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/clinician_codes
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific ClinicianCode object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/clinician_codes/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/clinician_codes/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/clinician_codes/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for ClinicianCode:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>filter sorted by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/clinician_codes?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/clinician_codes?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Education</h2>
+
+<p><strong>/api/v2/educations</strong> OR <strong>/api/educations</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;name&quot;:&quot;Trudie Lebsack&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Education, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/educations
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Education object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/educations/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/educations/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/educations/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Education:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>filter sorted by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/educations?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/educations?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>HealthcareProviderContent</h2>
+
+<p><strong>/api/v2/healthcare<em>provider</em>contents</strong> OR <strong>/api/healthcare<em>provider</em>contents</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;categoryGroup&quot;:&quot;Yeses incorrectness&quot;,&quot;desc&quot;:&quot;Achievement Quayle&quot;,&quot;externalLink&quot;:&quot;Bivouacked orgies&quot;,&quot;keywords&quot;:&quot;Lotuses hummed&quot;,&quot;title&quot;:&quot;Elixirs elegy&quot;,&quot;topicId&quot;:23443}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a HealthcareProviderContent, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/healthcare_provider_contents
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific HealthcareProviderContent object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/healthcare_provider_contents/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/healthcare_provider_contents/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/healthcare_provider_contents/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for HealthcareProviderContent:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>search_content</td>
+<td>searchContentScope</td>
+<td>search content by title, desc or keyword</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>return values sorted by name</td>
+</tr>
+<tr>
+<td>filter<em>by</em>category_group</td>
+<td>filterByCategoryGroupScope</td>
+<td>filter health care provider content on category group</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/healthcare_provider_contents?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/healthcare_provider_contents?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>JobAuditLogging</h2>
+
+<p><strong>/api/v2/job<em>audit</em>loggings</strong> OR <strong>/api/job<em>audit</em>loggings</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;createdAt&quot;:&quot;1973-06-08 15:21:11 +0000&quot;,&quot;name&quot;:&quot;Doretha Haley&quot;,&quot;rowsEffected&quot;:&quot;Abuser oaten&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a JobAuditLogging, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/job_audit_loggings
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific JobAuditLogging object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/job_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/job_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/job_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for JobAuditLogging:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/job_audit_loggings?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/job_audit_loggings?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>QuestionCategory</h2>
+
+<p><strong>/api/v2/question_categories</strong> OR <strong>/api/question_categories</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;name&quot;:&quot;Randy Greenholt&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a QuestionCategory, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/question_categories
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific QuestionCategory object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/question_categories/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/question_categories/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/question_categories/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for QuestionCategory:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>sort categories by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/question_categories?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/question_categories?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>QuestionCode</h2>
+
+<p><strong>/api/v2/question_codes</strong> OR <strong>/api/question_codes</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;name&quot;:&quot;Antonetta DuBuque&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a QuestionCode, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/question_codes
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific QuestionCode object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/question_codes/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/question_codes/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/question_codes/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for QuestionCode:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>filter sorted by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/question_codes?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/question_codes?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>QuestionType</h2>
+
+<p><strong>/api/v2/question_types</strong> OR <strong>/api/question_types</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;controlType&quot;:&quot;Romanticizing spurn&quot;,&quot;name&quot;:&quot;Timmy Braun&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a QuestionType, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/question_types
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific QuestionType object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/question_types/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/question_types/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/question_types/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for QuestionType:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>filter sorted by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/question_types?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/question_types?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Race</h2>
+
+<p><strong>/api/v2/races</strong> OR <strong>/api/races</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;name&quot;:&quot;Rufus Will&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Race, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/races
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Race object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/races/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/races/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/races/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Race:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>filter sorted by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/races?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/races?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>SearchAuditLogging</h2>
+
+<p><strong>/api/v2/search<em>audit</em>loggings</strong> OR <strong>/api/search<em>audit</em>loggings</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;createdAt&quot;:&quot;2007-01-22 05:54:18 +0000&quot;,&quot;searchTerm&quot;:&quot;Fluffiest Sunnyvale&quot;,&quot;userId&quot;:51725}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a SearchAuditLogging, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/search_audit_loggings
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific SearchAuditLogging object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/search_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/search_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/search_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for SearchAuditLogging:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/search_audit_loggings?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/search_audit_loggings?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>SendGrid</h2>
+
+<p><strong>/api/v2/send_grids</strong> OR <strong>/api/send_grids</strong></p>
+
+<p>Example payload:
+<code>
+{}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a SendGrid, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/send_grids
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific SendGrid object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/send_grids/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/send_grids/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/send_grids/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for SendGrid:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/send_grids?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/send_grids?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Setting</h2>
+
+<p><strong>/api/v2/settings</strong> OR <strong>/api/settings</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;awsHealthcareContentBucketName&quot;:&quot;Combo virginal&quot;,&quot;awsVideoBucketName&quot;:&quot;Downs repercussions&quot;,&quot;contactUserRegistrationEmailText&quot;:&quot;Inaccessibility counterfeit&quot;,&quot;contactUserRegistrationSubject&quot;:&quot;Amasses boobing&quot;,&quot;forgotPasswordEmailText&quot;:&quot;Officeholder comma&quot;,&quot;forgotPasswordSubject&quot;:&quot;Particularities tidbit&quot;,&quot;fromEmail&quot;:&quot;Disappointing Starbucks&quot;,&quot;smsPhoneNumber&quot;:&quot;Expended homecoming&quot;,&quot;surveyCompletionEmailSubject&quot;:&quot;Displaying Ndjamena&quot;,&quot;surveyCompletionEmailText&quot;:&quot;Predilection containers&quot;,&quot;surveyNotificationEmailText&quot;:&quot;Expropriating pharmacologist&quot;,&quot;surveyNotificationFinalSmsText&quot;:&quot;Facet publication&quot;,&quot;surveyNotificationFirstReminderEmailText&quot;:&quot;Shylock nonintervention&quot;,&quot;surveyNotificationFirstReminderSubject&quot;:&quot;Jerseys restrooms&quot;,&quot;surveyNotificationSubject&quot;:&quot;Gable innkeepers&quot;,&quot;termsAndConditions&quot;:&quot;Peripatetics areas&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Setting, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/settings
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Setting object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/settings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/settings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/settings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Setting:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/settings?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/settings?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Survey</h2>
+
+<p><strong>/api/v2/surveys</strong> OR <strong>/api/surveys</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;interventionGroup&quot;:&quot;Righteously plugins&quot;,&quot;isActive&quot;:false,&quot;name&quot;:&quot;Antony Conroy&quot;,&quot;patientType&quot;:3965,&quot;surveyType&quot;:&quot;Uncomplimentary unlucky&quot;,&quot;totalQuestions&quot;:91059,&quot;version&quot;:19758}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Survey, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/surveys
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Survey object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/surveys/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/surveys/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/surveys/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Survey:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>create_copy</td>
+<td>createCopyScope</td>
+<td>creates copy of the provided survey</td>
+</tr>
+<tr>
+<td>active<em>surveys</em>by<em>type</em>patient</td>
+<td>activeSurveysByTypePatientScope</td>
+<td>get all active surveys by survey<em>type and patient</em>type</td>
+</tr>
+<tr>
+<td>get<em>sorted</em>surveys</td>
+<td>getSortedSurveysScope</td>
+<td>survey type, patient type, intervention group, version number</td>
+</tr>
+<tr>
+<td>delete_survey</td>
+<td>deleteSurveyScope</td>
+<td>deep delete survey with its questions and answers</td>
+</tr>
+<tr>
+<td>generate<em>csv</em>results</td>
+<td>generateCsvResultsScope</td>
+<td>export the csv results of a survey</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/surveys?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/surveys?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>SurveyAnswer</h2>
+
+<p><strong>/api/v2/survey_answers</strong> OR <strong>/api/survey_answers</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;allowFreeForm&quot;:false,&quot;freeFormDataType&quot;:&quot;Disinterest stigmatizing&quot;,&quot;label&quot;:&quot;Unbelievably spokespeople&quot;,&quot;sortOrder&quot;:45527,&quot;surveyQuestionId&quot;:51884,&quot;videoTargetNumber&quot;:23783,&quot;weight&quot;:73114}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a SurveyAnswer, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/survey_answers
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific SurveyAnswer object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/survey_answers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/survey_answers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/survey_answers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for SurveyAnswer:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>get<em>answers</em>by_question</td>
+<td>getAnswersByQuestionScope</td>
+<td>get all answers of a question</td>
+</tr>
+<tr>
+<td>delete<em>question</em>answer</td>
+<td>deleteQuestionAnswerScope</td>
+<td>delete answer for a question based on id</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/survey_answers?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/survey_answers?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>SurveyQuestion</h2>
+
+<p><strong>/api/v2/survey_questions</strong> OR <strong>/api/survey_questions</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;didYouKnowText&quot;:&quot;Ornithologists aquiculture&quot;,&quot;label&quot;:&quot;Trilaterals disenfranchised&quot;,&quot;questionCategoryId&quot;:14487,&quot;questionCodeId&quot;:11315,&quot;questionGroup&quot;:&quot;Pushier sparseness&quot;,&quot;questionText&quot;:&quot;Impinged Leonor&quot;,&quot;questionTypeId&quot;:66851,&quot;requiredAnswer&quot;:true,&quot;sortOrder&quot;:51266,&quot;surveyId&quot;:27805}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a SurveyQuestion, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/survey_questions
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific SurveyQuestion object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/survey_questions/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/survey_questions/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/survey_questions/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for SurveyQuestion:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>get<em>question</em>by_survey</td>
+<td>getQuestionBySurveyScope</td>
+<td>get all the questions for a survey</td>
+</tr>
+<tr>
+<td>delete<em>survey</em>question</td>
+<td>deleteSurveyQuestionScope</td>
+<td>delete survey question based on id</td>
+</tr>
+<tr>
+<td>get<em>question</em>by<em>question</em>code</td>
+<td>getQuestionByQuestionCodeScope</td>
+<td>get all question with the provided question code</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/survey_questions?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/survey_questions?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>SurveyQuestionSkipLogic</h2>
+
+<p><strong>/api/v2/survey<em>question</em>skip_logics</strong> OR <strong>/api/survey<em>question</em>skip_logics</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;skipQuestionCodes&quot;:&quot;Ramble spritzing&quot;,&quot;surveyAnswerId&quot;:&quot;Pennsylvanians baking&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a SurveyQuestionSkipLogic, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/survey_question_skip_logics
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific SurveyQuestionSkipLogic object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/survey_question_skip_logics/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/survey_question_skip_logics/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/survey_question_skip_logics/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for SurveyQuestionSkipLogic:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>get<em>skip</em>logic<em>by</em>answers</td>
+<td>getSkipLogicByAnswersScope</td>
+<td>get skip logic by survey<em>answer</em>id</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/survey_question_skip_logics?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/survey_question_skip_logics?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Topic</h2>
+
+<p><strong>/api/v2/topics</strong> OR <strong>/api/topics</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;name&quot;:&quot;Fidel Runolfsdottir&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Topic, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/topics
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Topic object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/topics/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/topics/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/topics/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Topic:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>filter sorted by name</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/topics?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/topics?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Twilio</h2>
+
+<p><strong>/api/v2/twilios</strong> OR <strong>/api/twilios</strong></p>
+
+<p>Example payload:
+<code>
+{}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Twilio, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/twilios
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Twilio object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/twilios/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/twilios/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/twilios/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Twilio:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/twilios?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/twilios?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>User</h2>
+
+<p><strong>/api/v2/users</strong> OR <strong>/api/users</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;actualChildBirth&quot;:&quot;2016-04-09&quot;,&quot;address&quot;:&quot;Currencies skier&quot;,&quot;cellPhone&quot;:&quot;Depot pugilistic&quot;,&quot;city&quot;:&quot;Reappointment instrumented&quot;,&quot;clinicianCodeId&quot;:97832,&quot;clinicName&quot;:&quot;Appraise clumsiness&quot;,&quot;consentAcceptedOn&quot;:&quot;2010-08-22 22:23:38 +0000&quot;,&quot;contactCellPhone&quot;:&quot;Encasing specialization&quot;,&quot;contactEmail&quot;:&quot;Blurt alternatively&quot;,&quot;contactHomePhone&quot;:&quot;Maneuverability ached&quot;,&quot;contactName&quot;:&quot;Backstrokes superabundances&quot;,&quot;deactivatedOn&quot;:&quot;1984-08-16 07:07:56 +0000&quot;,&quot;educationId&quot;:80852,&quot;email&quot;:&quot;leonardo.wolf27@vaccinesurvey.com&quot;,&quot;expectedChildBirth&quot;:&quot;2017-04-08&quot;,&quot;firstName&quot;:&quot;Jina&quot;,&quot;hasContactUsers&quot;:false,&quot;homePhone&quot;:&quot;Acquaintance distorts&quot;,&quot;interventionGroup&quot;:&quot;Veldt disrespectfully&quot;,&quot;isDeactive&quot;:true,&quot;lastName&quot;:&quot;Rippin&quot;,&quot;parentRelationshipType&quot;:&quot;Massachusetts recapitulating&quot;,&quot;parentUserId&quot;:59484,&quot;password&quot;:&quot;password&quot;,&quot;passwordConfirmation&quot;:&quot;password&quot;,&quot;passwordDigest&quot;:&quot;Unintelligible interrogatories&quot;,&quot;patientType&quot;:51127,&quot;postalCode&quot;:&quot;Amanuenses insignificance&quot;,&quot;raceId&quot;:34007,&quot;reasonForDeactivation&quot;:&quot;Phantasmagorias bladders&quot;,&quot;resetPassword&quot;:true,&quot;role&quot;:&quot;Kinked scintillation&quot;,&quot;state&quot;:&quot;Concatenated template&quot;,&quot;updatedUserProfile&quot;:false,&quot;vaccinationReminders&quot;:true,&quot;xSessionId&quot;:&quot;Pitilessly Galibi&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a User, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/users
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific User object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/users/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/users/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/users/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for User:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>reset_password</td>
+<td>resetPasswordScope</td>
+<td>Resets the password and sends an email to the user</td>
+</tr>
+<tr>
+<td>consent_accepted</td>
+<td>consentAcceptedScope</td>
+<td>contact intervention user&#39;s consent accepted field is set.</td>
+</tr>
+<tr>
+<td>deactivate</td>
+<td>deactivateScope</td>
+<td>can also be set by admin</td>
+</tr>
+<tr>
+<td>myprofile</td>
+<td>myprofileScope</td>
+<td>Returns the logged in user profile</td>
+</tr>
+<tr>
+<td>get<em>my</em>contacts</td>
+<td>getMyContactsScope</td>
+<td>get contact users for current user</td>
+</tr>
+<tr>
+<td>get<em>patients</em>by_clinics</td>
+<td>getPatientsByClinicsScope</td>
+<td>get all patients optionally filter by clinic for admin</td>
+</tr>
+<tr>
+<td>get<em>healthcare</em>by_clinic</td>
+<td>getHealthcareByClinicScope</td>
+<td>get all the healthcare users with clinics names for admin</td>
+</tr>
+<tr>
+<td>patient<em>survey</em>export</td>
+<td>patientSurveyExportScope</td>
+<td>exports patients survey data</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/users?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/users?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>UserAuditLogging</h2>
+
+<p><strong>/api/v2/user<em>audit</em>loggings</strong> OR <strong>/api/user<em>audit</em>loggings</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;ipAddress&quot;:&quot;Afrikaner killjoys&quot;,&quot;loggedInAt&quot;:&quot;1978-08-09 16:56:16 +0000&quot;,&quot;loggedOutAt&quot;:&quot;1979-05-07 08:45:10 +0000&quot;,&quot;userAgent&quot;:&quot;Twirler forest&quot;,&quot;userId&quot;:5531}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a UserAuditLogging, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/user_audit_loggings
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific UserAuditLogging object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/user_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/user_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/user_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for UserAuditLogging:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>user<em>audit</em>export</td>
+<td>userAuditExportScope</td>
+<td>export user audit data according to created date</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/user_audit_loggings?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/user_audit_loggings?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>UserSurvey</h2>
+
+<p><strong>/api/v2/user_surveys</strong> OR <strong>/api/user_surveys</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;completedAt&quot;:&quot;Palpitate iPhone&quot;,&quot;completition&quot;:3582,&quot;createdAt&quot;:&quot;2005-12-10 10:41:59 +0000&quot;,&quot;currentuseranswers&quot;:[1,2,3],&quot;firstQuestion&quot;:{&quot;one&quot;:1,&quot;two&quot;:2,&quot;three&quot;:3},&quot;firstQuestionId&quot;:38383,&quot;firstReminder&quot;:false,&quot;isComplete&quot;:true,&quot;matchedVideos&quot;:[1,2,3],&quot;maternalVideoComplete&quot;:false,&quot;maternalVideoNumber&quot;:&quot;Concertinaed pasterns&quot;,&quot;maternalVideoPosition&quot;:1054.329222514205,&quot;pediatricVideoComplete&quot;:true,&quot;pediatricVideoNumber&quot;:&quot;Pornographic presumptuously&quot;,&quot;pediatricVideoPosition&quot;:84851.60128126742,&quot;questionCount&quot;:87721,&quot;secondReminder&quot;:false,&quot;surveyId&quot;:83772,&quot;userId&quot;:56027,&quot;videoSourceVersion&quot;:&quot;Depoliticizing sniffing&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a UserSurvey, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/user_surveys
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific UserSurvey object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/user_surveys/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/user_surveys/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/user_surveys/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for UserSurvey:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>get<em>patients</em>survey</td>
+<td>getPatientsSurveyScope</td>
+<td>return not completed survey</td>
+</tr>
+<tr>
+<td>getfirstquestion</td>
+<td>getfirstquestionScope</td>
+<td>Gets the first question</td>
+</tr>
+<tr>
+<td>compelete_survey</td>
+<td>compeleteSurveyScope</td>
+<td>used to set the complete survey property</td>
+</tr>
+<tr>
+<td>get<em>video</em>survey</td>
+<td>getVideoSurveyScope</td>
+<td>get video survey for the user</td>
+</tr>
+<tr>
+<td>check<em>survey</em>exists</td>
+<td>checkSurveyExistsScope</td>
+<td>check if survey with the provided survey_id exists</td>
+</tr>
+<tr>
+<td>check<em>survey</em>count</td>
+<td>checkSurveyCountScope</td>
+<td>check if survey with the provided survey_id exists</td>
+</tr>
+<tr>
+<td>generate<em>csv</em>results</td>
+<td>generateCsvResultsScope</td>
+<td>Generates a csv file with all the survey results</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/user_surveys?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/user_surveys?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>UserSurveyAnswer</h2>
+
+<p><strong>/api/v2/user<em>survey</em>answers</strong> OR <strong>/api/user<em>survey</em>answers</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;appliedSkipLogicId&quot;:23945,&quot;freeFormResponse&quot;:&quot;Cannonading mushing&quot;,&quot;nextquestion&quot;:{&quot;one&quot;:1,&quot;two&quot;:2,&quot;three&quot;:3},&quot;previousquestion&quot;:{&quot;one&quot;:1,&quot;two&quot;:2,&quot;three&quot;:3},&quot;questionCodeId&quot;:37777,&quot;questionGroup&quot;:&quot;Conciliation emancipator&quot;,&quot;questionOrder&quot;:93936,&quot;skipped&quot;:true,&quot;surveyAnswerId&quot;:65884,&quot;surveyQuestionId&quot;:6203,&quot;userSurveyId&quot;:59550}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a UserSurveyAnswer, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/user_survey_answers
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific UserSurveyAnswer object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/user_survey_answers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/user_survey_answers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/user_survey_answers/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for UserSurveyAnswer:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>previousquestion</td>
+<td>previousquestionScope</td>
+<td>previousquestion</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/user_survey_answers?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/user_survey_answers?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>UserSurveyVideo</h2>
+
+<p><strong>/api/v2/user<em>survey</em>videos</strong> OR <strong>/api/user<em>survey</em>videos</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;isComplete&quot;:true,&quot;sortOrder&quot;:10468,&quot;userSurveyId&quot;:18242,&quot;videoNumber&quot;:79124,&quot;videoPosition&quot;:97446.0054491204,&quot;videoSourceVersion&quot;:&quot;Nostalgically liabilities&quot;,&quot;videoType&quot;:&quot;Cloudbursts instrumentation&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a UserSurveyVideo, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/user_survey_videos
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific UserSurveyVideo object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/user_survey_videos/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/user_survey_videos/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/user_survey_videos/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for UserSurveyVideo:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>get<em>videos</em>for<em>user</em>survey_id</td>
+<td>getVideosForUserSurveyIdScope</td>
+<td>return videos for the user<em>survey</em>id</td>
+</tr>
+<tr>
+<td>get<em>video</em>by_id</td>
+<td>getVideoByIdScope</td>
+<td>get the video by id</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/user_survey_videos?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/user_survey_videos?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>VaccinationReminder</h2>
+
+<p><strong>/api/v2/vaccination_reminders</strong> OR <strong>/api/vaccination_reminders</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;messageText&quot;:&quot;Sodomite stigmatizing&quot;,&quot;triggerDaysFromDob&quot;:82737}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a VaccinationReminder, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/vaccination_reminders
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific VaccinationReminder object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/vaccination_reminders/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/vaccination_reminders/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/vaccination_reminders/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for VaccinationReminder:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>trigger_days</td>
+<td>sortedByTriggerDaysScope</td>
+<td>filter sorted by trigger days</td>
+</tr>
+<tr>
+<td>send<em>vaccination</em>reminders</td>
+<td>sendVaccinationRemindersScope</td>
+<td>send vaccination reminders to user according to the dob</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/vaccination_reminders?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/vaccination_reminders?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>Video</h2>
+
+<p><strong>/api/v2/videos</strong> OR <strong>/api/videos</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;desc&quot;:&quot;Transliterating overcompensated&quot;,&quot;isActive&quot;:false,&quot;keywords&quot;:&quot;Yoking counterfeiting&quot;,&quot;length&quot;:42259.38851102979,&quot;questionGroup&quot;:&quot;Excellently artless&quot;,&quot;sortOrder&quot;:55486,&quot;sourceVersion&quot;:&quot;Carver Gavin&quot;,&quot;targetNumber&quot;:35943,&quot;title&quot;:&quot;Adroit kibbutzim&quot;,&quot;topicId&quot;:47865,&quot;videoUrl&quot;:&quot;Pamphlets shticks&quot;}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a Video, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/videos
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific Video object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/videos/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/videos/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/videos/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for Video:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>search<em>video</em>scoped<em>by</em>race_edu</td>
+<td>searchVideoScopedByRaceEduScope</td>
+<td>search by title, desc or keywords</td>
+</tr>
+<tr>
+<td>search<em>video</em>by_keyword</td>
+<td>searchVideoByKeywordScope</td>
+<td>search video and log the search</td>
+</tr>
+<tr>
+<td>sorted<em>by</em>name</td>
+<td>sortedByNameScope</td>
+<td>sort videos by name</td>
+</tr>
+<tr>
+<td>video_gallery</td>
+<td>videoGalleryScope</td>
+<td>return a list of videos based on userSurvey.video<em>source</em>version</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/videos?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/videos?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2>VideoAuditLogging</h2>
+
+<p><strong>/api/v2/video<em>audit</em>loggings</strong> OR <strong>/api/video<em>audit</em>loggings</strong></p>
+
+<p>Example payload:
+<code>
+{&quot;createdAt&quot;:&quot;1974-07-08 19:54:35 +0000&quot;,&quot;duration&quot;:64532.57983587724,&quot;userId&quot;:33614,&quot;videoId&quot;:31479,&quot;watchedEntireVideo&quot;:false}</code></p>
+
+<h3>Create</h3>
+
+<p>To create a VideoAuditLogging, make a POST like below using a body similar
+to the example payload.</p>
+
+<pre><code>POST /api/video_audit_loggings
+</code></pre>
+
+<h3>Read</h3>
+
+<p>To request a specific VideoAuditLogging object, make a GET using the following
+URL:</p>
+
+<pre><code>GET /api/video_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<p>The read route also supports scopes, both custom and default. To learn more about
+executing scopes see the section below.</p>
+
+<h3>Update</h3>
+
+<p>To update an object, make PUT or POST to the following URL:</p>
+
+<pre><code>PUT or POST /api/video_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.
+The body of the call should contain the new values.</p>
+
+<h3>Destroy</h3>
+
+<p>To destroy an object, make a DELETE to the following URL:</p>
+
+<pre><code>DELETE /api/video_audit_loggings/&lt;id&gt;
+</code></pre>
+
+<p>Replace &quot;id&quot; with the id value for the object.</p>
+
+<h3>Scopes</h3>
+
+<p>Available scopes for VideoAuditLogging:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Javascript Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td>allScope</td>
+<td>Returns all instances</td>
+</tr>
+<tr>
+<td>exact_match</td>
+<td>exactMatchScope</td>
+<td>Returns all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>count</td>
+<td>countScope</td>
+<td>Counts all instances</td>
+</tr>
+<tr>
+<td>count<em>exact</em>match</td>
+<td>countExactMatchScope</td>
+<td>Counts all instances that match the provided fields exactly</td>
+</tr>
+<tr>
+<td>export<em>video</em>log</td>
+<td>exportVideoLogScope</td>
+<td>this exports video audit from/after a provided date</td>
+</tr>
+<tr>
+<td>by<em>video</em>and<em>user</em>id</td>
+<td>byVideoAndUserIdScope</td>
+<td>find video audit log by video id and user id</td>
+</tr>
+</tbody></table>
+
+<p>To execute a scope query:</p>
+
+<pre><code>GET /api/video_audit_loggings?scope=&lt;scope_name&gt;
+</code></pre>
+
+<p>Replace &quot;scope_name&quot; with the value in the name column in the above table. Some scopes
+may require additional query parameters, for example:</p>
+
+<pre><code>GET /api/video_audit_loggings?scope=custom&amp;query[first_name]=bob
+</code></pre>
+
+<p>Use query[field] pattern to send a value to the scope operation.</p>
+
+<h2><a name="push-notifications"></a> Push Notifications</h2>
+
+<h2>Subscribe</h2>
+
+<p><strong>Does NOT require authentication</strong></p>
+
+<p>The supplied token (device identifier) will be subscribed to the provided channel
+belonging to either the supplied appName or the default application. If the channel
+does not exist it will be created using the supplied channelName. If the device
+does not exist it will also be created using the supplied token, provider and name.</p>
+
+<h4>POST /api/push_notifications/channel/subscribe</h4>
+
+<pre><code>{
+  channelName: &#39;News&#39;,
+  appName: &#39;someApp&#39;,
+  token: &#39;Test&#39;,
+  provider: &#39;APPLE&#39;,
+  name: &quot;Frank&#39;s iPhone&quot;
+}
+</code></pre>
+
+<h4>RESPONSE</h4>
+
+<pre><code>{
+  &quot;channels&quot;: [
+    {
+      &quot;name&quot;: &quot;News&quot;,
+      &quot;app&quot;: &quot;569938c1df324340867cfa29&quot;,
+      &quot;compositeName&quot;: &quot;News569938c1df324340867cfa29&quot;,
+      &quot;id&quot;: &quot;56a123121d1032a75980fa92&quot;
+    }
+  ],
+  &quot;app&quot;: &quot;569938c1df324340867cfa29&quot;,
+  &quot;identifier&quot;: &quot;Test&quot;,
+  &quot;name&quot;: &quot;Frank&#39;s iPhone&quot;,
+  &quot;provider&quot;: &quot;APPLE&quot;,
+  &quot;compositeIdentifier&quot;: &quot;Test569938c1df324340867cfa29&quot;,
+  &quot;id&quot;: &quot;56a151fb9af0741278fe0782&quot;
+}
+</code></pre>
+
+<p><strong>channelName</strong> should be an existing channel or a channel you wish to be created.</p>
+
+<p><strong>appName</strong> <em>optional</em> should contain the name of the app you&#39;re dealing with. If it is not supplied the default application will be used.</p>
+
+<p><strong>token</strong> is the identifier token provided by APN or GCM.</p>
+
+<p><strong>provider</strong> <em>optional</em> is either &#39;APPLE&#39; or &#39;GOOGLE&#39;. Only needs to be provided if you expect the device to not exist and needs to be created. The value will be the new device&#39;s provider.</p>
+
+<p><strong>name</strong> <em>optional</em> Can be a string identifier for the device for friendlier display to users. Only needs to be provided if you expect the device to not exist and needs to be created.</p>
+
+<p>The successful response will contain the device as well as any channels it&#39;s subscribed to, including the newly subscribed channel.</p>
+
+<h3>Subscribe in custom code</h3>
+
+<p>You can also execute the subscribe method directly in your custom code. For example:</p>
+
+<pre><code>/*
+ * The parameters for subscribe in order are:
+ * token : Identifier provided by APN or GCM.
+ * provider : &#39;APPLE&#39; or &#39;GOOGLE&#39;.
+ * name : A nickname for the device.
+ * appId : The push application.
+ * channelName : The channel belonging to appId&#39;s app.
+ * cb : function
+ */
+this.push.subscribe(&quot;abc123&quot;, &quot;APPLE&quot;, &quot;Example&#39;s iPhone&quot;, &quot;569938c1df324340867cfa29&quot;, &quot;Alerts&quot;, function(err, result) {
+  // &quot;result&quot; will be the device and it&#39;s associated channels.
+});
+</code></pre>
+
+<p>The behavior is the same as using the API endpoint. If a channel does not exist, it will be created. If the device does not exist it, will be created
+using the provider, name and token.</p>
+
+<h2>Unsubscribe</h2>
+
+<p><strong>Does NOT require authentication</strong></p>
+
+<p>Removes the supplied device token from the channel. If the device is not subscribed to the provided channel an error is returned.</p>
+
+<h4>POST /api/push_notifications/channel/unsubscribe</h4>
+
+<pre><code>{
+  channelName: &#39;News&#39;,
+  appName: &#39;someApp&#39;,
+  token: &#39;Test&#39;
+}
+</code></pre>
+
+<h4>RESPONSE</h4>
+
+<pre><code>{
+  &quot;channels&quot;: [ ],
+  &quot;app&quot;: &quot;569938c1df324340867cfa29&quot;,
+  &quot;identifier&quot;: &quot;Test&quot;,
+  &quot;name&quot;: &quot;Frank&#39;s iPhone&quot;,
+  &quot;provider&quot;: &quot;APPLE&quot;,
+  &quot;compositeIdentifier&quot;: &quot;Test569938c1df324340867cfa29&quot;,
+  &quot;id&quot;: &quot;56a151fb9af0741278fe0782&quot;
+}
+</code></pre>
+
+<p><strong>channelName</strong> should be an existing channel.</p>
+
+<p><strong>appName</strong> <em>optional</em> should contain the name of the app you&#39;re dealing with. If it is not supplied the default application will be used.</p>
+
+<p><strong>token</strong> is the identifier token provided by APN or GCM.</p>
+
+<p>Like subscribe, the successful response will contain the device as well as any channels it&#39;s subscribed to. The unsubscribed channel will no longer be in the channels list.</p>
+
+<h3>Unsubscribe in custom code</h3>
+
+<p>You can also execute the unsubscribe method directly in your custom code. For example:</p>
+
+<pre><code>/*
+ * The parameters for unsubscribe in order are:
+ * token : Identifier provided by APN or GCM.
+ * channelName : name of the channel to unsubscribe from.
+ * appId : Id of the application the channel belongs to.
+ */
+this.push.unsubscribe(&#39;abc123&#39;, &#39;channelName&#39;, &#39;appId&#39;, function(err, result) {
+  // &quot;result&quot; will be the device and it&#39;s associated channels.
+});
+</code></pre>
+
+<h2>Device&#39;s Channels</h2>
+
+<p><strong>Does NOT require authentication</strong></p>
+
+<h4>GET /api/push_notifications/device/:token/channels</h4>
+
+<h4>RESPONSE</h4>
+
+<pre><code>[       
+  {       
+    &quot;app&quot;: {
+      &quot;name&quot;: &quot;PusheNotifications&quot;,
+      &quot;id&quot;: &quot;569938c1df324340867cfa29&quot;
+    },
+    &quot;name&quot;: &quot;Alerts&quot;,      
+    &quot;compositeName&quot;: &quot;Alerts56bbc0111dbcbc3d89bcfa76&quot;,       
+    &quot;id&quot;: &quot;56bbc0221dbcbc3d89bcfa77&quot;     
+  },     
+  {     
+    &quot;app&quot;: {
+      &quot;name&quot;: &quot;PusheNotifications&quot;,
+      &quot;id&quot;: &quot;569938c1df324340867cfa29&quot;
+    },
+    &quot;name&quot;: &quot;Messages&quot;,       
+    &quot;compositeName&quot;: &quot;Messages56bbc0111dbcbc3d89bcfa76&quot;,     
+    &quot;id&quot;: &quot;56bcb8f3c1834efb189473e1&quot;
+  } 
+]
+</code></pre>
+
+<p><strong>token</strong> This is the token supplied by either GCM or APN.</p>
+
+<h2>Push Notification</h2>
+
+<p><strong>Does NOT require authentication</strong></p>
+
+<p>Sends a message to the supplied channel&#39;s devices. Includes both Google and Apple devices.</p>
+
+<h4>POST /api/push_notifications/message</h4>
+
+<pre><code>{
+  channelName: &quot;myChannel&quot;,
+  appName: &quot;someApp&quot;,
+  appleAlert: &quot;\uD83D\uDCE7 Updates Available!&quot;,
+  appleBadge:  1,
+  appleSound: &quot;ping.aiff&quot;,
+  appleExpiry: 60,
+  appleContentAvailable:  0,
+  googleCollapseKey: &quot;Updates Available&quot;,
+  googleDelayWhileIdle: true,
+  googleTimeToLive: 60
+  payload: &quot;You&#39;ve received a new message!&quot;
+}
+</code></pre>
+
+<p><strong>channelName</strong>  should be an existing channel.</p>
+
+<p><strong>appName</strong> <em>optional</em> should contain the name of the app the channel belongs to. If it is not supplied the default application will be used.</p>
+
+<p><strong>appleAlert</strong> The text to display in the alert. Apple only. Defaults to &quot;You have a new notification!&quot;.</p>
+
+<p><strong>appleBadge</strong> <em>optional</em> Number to display on the app&#39;s badge icon. Apple only. Defaults to 1.</p>
+
+<p><strong>appleSound</strong> <em>optional</em> The sound file to play on the device when receiving the notification. The file should exist within your application&#39;s bundle or in the Library/Sounds folder. Apple only. Defaults to &quot;ping.aiff&quot;.</p>
+
+<p><strong>appleExpiry</strong> Minutes. Time when the push notification is no longer relevant and can be discarded regardless if it has been delivered. Apple only. Defaults to 60.</p>
+
+<p><strong>appleContentAvailable</strong> <em>optional</em> 1 indicates that the application has content available. Apple only. Defaults to 0 - no content available.</p>
+
+<p><strong>googleCollapseKey</strong> <em>optional</em> Identifies a group of messages that can be collapsed to display only the most recent notification. Google only.</p>
+
+<p><strong>googleDelayWhileIdle</strong> <em>optional</em> Indicates whether the message should be delayed until the device is active. Google only. Default is false.</p>
+
+<p><strong>googleTimeToLive</strong> <em>optional</em> This parameter specifies how long (in minutes) the message should be kept in GCM storage if the device is offline. Google only. Default is 4 weeks.</p>
+
+<p><strong>payload</strong> <em>required</em> Content of the alert.</p>
+
+<h3>Push Notification in custom code</h3>
+
+<p>You can also use the push API to send a message object to an application&#39;s channel in your custom code. To do so, first create a new message object:</p>
+
+<pre><code>Message.create({channel: &#39;channel_id&#39;, payload: &#39;the message&#39;}).exec(function(err, result) {
+  // Handle any validation errors that may occur
+  // result is your persisted message.
+})
+</code></pre>
+
+<p>Once you have your message object you can use it to send message to a channel using the push API:</p>
+
+<pre><code>// &#39;result&#39; is the result of the create callback from above - the message object.
+// Replace channelName with the appropriate channel name and appId with a push application&#39;s id.
+this.push.sendMessage(result, &#39;channelName&#39;, &#39;appId&#39;, function() {
+  // the callback is executed when messages are sending.
+})
+</code></pre>
+
+<h2><a name="file-uploads"></a> File Uploads</h2>
+
+<h2><a name=“file-uploads”></a> File Uploads</h2>
+
+<p>Models may contain file fields. Generated APIs provides a set of operations to enable CRUD file operations.</p>
+
+<h2>Creating a resource that contains a file field</h2>
+
+<p>Suppose we have a Candidate model with three fields:</p>
+
+<ul>
+<li>name</li>
+<li>lastName</li>
+<li>resume</li>
+</ul>
+
+<p>Name and lastName are Strings, and resume is expected to be an attached file (In example: a PDF or DOC). We could execute following command to create a model instance:</p>
+
+<h4>POST http://localhost:1337/api/v1/employees</h4>
+
+<pre><code>{
+&quot;lastname&quot;: &quot;John&quot;,
+&quot;name&quot;: &quot;Dow&quot;,
+&quot;resume&quot;: &quot;@file.png&quot;
+}
+</code></pre>
+
+<h4>RESPONSE</h4>
+
+<pre><code>{
+&quot;lastname&quot;: &quot;BBBB&quot;,
+&quot;name&quot;: &quot; POPO&quot;,
+&quot;resume&quot;: &quot;/api/employees/files/26f273e8-a44d-499b-b5fa-1bc6cef7ef3c.png&quot;,
+&quot;id&quot;: &quot;56cfe170f67da8143f9023fe&quot;
+}
+</code></pre>
+
+<p>!Important: POST request MUST BE of type multipart/form-data</p>
+
+<p>File fields wont return the file contents embedded in the model representation but an outbound link to resource. The last part of the URI is the file name.</p>
+
+<h2>Updating / Patching a resource that contains a file field</h2>
+
+<p>A resource with files can be patched / updated through the API.</p>
+
+<h4>PUT http://localhost:1337/api/v1/employees/56cfe170f67da8143f9023fe</h4>
+
+<pre><code>{
+&quot;lastname&quot;: &quot;Doe&quot;,
+&quot;name&quot;: &quot; John&quot;
+}
+</code></pre>
+
+<h4>RESPONSE 204</h4>
+
+<p>So in this case, resource with id 56cfe170f67da8143f9023fe will be updated with provided values.</p>
+
+<h2>Updating / Patching just model files</h2>
+
+<p>Suppose we have an existing employee like this:</p>
+
+<pre><code>{
+&quot;lastname&quot;: &quot;Doe&quot;,
+&quot;name&quot;: &quot; John&quot;,
+&quot;resume&quot;: &quot;/api/employees/files/babce698-6069-4ed7-a821-09489fefe213.png&quot;,
+&quot;id&quot;: &quot;56d8f4e8d4bbbf7d3f9e0224&quot;
+}
+</code></pre>
+
+<p>If you&#39;d like to remove the resume from a candidate simply send an empty string in the request for that field:</p>
+
+<h4>PUT http://localhost:1337/api/v1/employees/56cfe170f67da8143f9023fe</h4>
+
+<pre><code>{
+&quot;lastname&quot;: &quot;Doe&quot;,
+&quot;name&quot;: &quot; John&quot;,
+&quot;resume&quot;: &quot;&quot;,
+}
+</code></pre>
+
+<p>Executing request above, resume file will be removed from storage, and model will be updated setting resume file url field to null. So a get request over that model instance will return:</p>
+
+<h4>RESPONSE</h4>
+
+<p>{
+&quot;lastname&quot;: &quot;Doe&quot;,
+&quot;name&quot;: &quot; John&quot;,
+&quot;resume&quot;: null,
+&quot;id&quot;: &quot;56d8f4e8d4bbbf7d3f9e0224&quot;
+}</p>
+
+<p>The API will automatically delete files associated with a model when it is destroyed.</p>
+
+<pre><code>#### DELETE http://localhost:1337/api/v1/employees/56cfe170f67da8143f9023fe
+</code></pre>
+
+<h4>RESPONSE 204</h4>
+
+<p>## <a name="programmatic-crud-and-query-scope-calls"></a> Programmatic CRUD and Query Scope Calls</p>
+
+<h3>Create</h3>
+
+<p>If you want to create a ClinicianBlockRandomizer in your custom code:</p>
+
+<pre><code class="javascript">// Pass the create method an object containing the model attributes
+V2ClinicianBlockRandomizer.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a ClinicianBlockRandomizer in your custom code:</p>
+
+<pre><code class="javascript">V2ClinicianBlockRandomizer.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a ClinicianBlockRandomizer in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2ClinicianBlockRandomizer.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a ClinicianBlockRandomizer in your custom code:</p>
+
+<pre><code class="javascript">V2ClinicianBlockRandomizer.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a ClinicianCode in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2ClinicianCode.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a ClinicianCode in your custom code:</p>
+
+<pre><code class="javascript">V2ClinicianCode.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a ClinicianCode in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2ClinicianCode.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a ClinicianCode in your custom code:</p>
+
+<pre><code class="javascript">V2ClinicianCode.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a Education in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2Education.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Education in your custom code:</p>
+
+<pre><code class="javascript">V2Education.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Education in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2Education.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Education in your custom code:</p>
+
+<pre><code class="javascript">V2Education.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a HealthcareProviderContent in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2HealthcareProviderContent.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a HealthcareProviderContent in your custom code:</p>
+
+<pre><code class="javascript">V2HealthcareProviderContent.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a HealthcareProviderContent in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2HealthcareProviderContent.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a HealthcareProviderContent in your custom code:</p>
+
+<pre><code class="javascript">V2HealthcareProviderContent.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a JobAuditLogging in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2JobAuditLogging.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a JobAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2JobAuditLogging.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a JobAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2JobAuditLogging.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a JobAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2JobAuditLogging.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a QuestionCategory in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2QuestionCategory.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a QuestionCategory in your custom code:</p>
+
+<pre><code class="javascript">V2QuestionCategory.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a QuestionCategory in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2QuestionCategory.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a QuestionCategory in your custom code:</p>
+
+<pre><code class="javascript">V2QuestionCategory.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a QuestionCode in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2QuestionCode.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a QuestionCode in your custom code:</p>
+
+<pre><code class="javascript">V2QuestionCode.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a QuestionCode in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2QuestionCode.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a QuestionCode in your custom code:</p>
+
+<pre><code class="javascript">V2QuestionCode.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a QuestionType in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2QuestionType.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a QuestionType in your custom code:</p>
+
+<pre><code class="javascript">V2QuestionType.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a QuestionType in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2QuestionType.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a QuestionType in your custom code:</p>
+
+<pre><code class="javascript">V2QuestionType.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a Race in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2Race.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Race in your custom code:</p>
+
+<pre><code class="javascript">V2Race.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Race in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2Race.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Race in your custom code:</p>
+
+<pre><code class="javascript">V2Race.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a SearchAuditLogging in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2SearchAuditLogging.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a SearchAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2SearchAuditLogging.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a SearchAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2SearchAuditLogging.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a SearchAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2SearchAuditLogging.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a SendGrid in your custom code:
+
+```javascript
+/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields for the new object.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last parameter is an error first callback function.
+ */
+V2SendGrid.request(&#39;create&#39;, params, values, req.context, function(err, result) {
+  if (err) {
+    // Handle error
+  } else {
+    // result is the created object
+  }
+});
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a SendGrid in your custom code:</p>
+
+<pre><code class="javascript">/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields for the new object - not used in read calls.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last param is an error first callback function.
+ */
+var params = { limit: 10 };
+V2SendGrid.request(&#39;read&#39;, params, values, req.context, function(err, result) {
+  if (err) {
+    // Handle error
+  } else {
+    // result is the found object
+  }
+});
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a SendGrid in your custom code:</p>
+
+<pre><code class="javascript">/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields to be updated.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last param is an error first callback function.
+ */
+V2SendGrid.request(&#39;update&#39;, params, values, req.context, function(err, result) {
+  if (err) {
+    // Handle error
+  } else {
+    // result is the updated object
+  }
+});
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a SendGrid in your custom code:</p>
+
+<pre><code class="javascript">/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields for the new object - not used in delete calls.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last param is an error first callback function.
+ */
+V2SendGrid.request(&#39;delete&#39;, params, values, req.context, function(err) {
+  if (err) {
+    // Handle error
+  }
+});
+```### Create
+
+If you want to create a Setting in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2Setting.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Setting in your custom code:</p>
+
+<pre><code class="javascript">V2Setting.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Setting in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2Setting.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Setting in your custom code:</p>
+
+<pre><code class="javascript">V2Setting.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a Survey in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2Survey.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Survey in your custom code:</p>
+
+<pre><code class="javascript">V2Survey.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Survey in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2Survey.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Survey in your custom code:</p>
+
+<pre><code class="javascript">V2Survey.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a SurveyAnswer in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2SurveyAnswer.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a SurveyAnswer in your custom code:</p>
+
+<pre><code class="javascript">V2SurveyAnswer.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a SurveyAnswer in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2SurveyAnswer.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a SurveyAnswer in your custom code:</p>
+
+<pre><code class="javascript">V2SurveyAnswer.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a SurveyQuestion in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2SurveyQuestion.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a SurveyQuestion in your custom code:</p>
+
+<pre><code class="javascript">V2SurveyQuestion.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a SurveyQuestion in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2SurveyQuestion.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a SurveyQuestion in your custom code:</p>
+
+<pre><code class="javascript">V2SurveyQuestion.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a SurveyQuestionSkipLogic in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2SurveyQuestionSkipLogic.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a SurveyQuestionSkipLogic in your custom code:</p>
+
+<pre><code class="javascript">V2SurveyQuestionSkipLogic.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a SurveyQuestionSkipLogic in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2SurveyQuestionSkipLogic.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a SurveyQuestionSkipLogic in your custom code:</p>
+
+<pre><code class="javascript">V2SurveyQuestionSkipLogic.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a Topic in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2Topic.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Topic in your custom code:</p>
+
+<pre><code class="javascript">V2Topic.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Topic in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2Topic.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Topic in your custom code:</p>
+
+<pre><code class="javascript">V2Topic.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a Twilio in your custom code:
+
+```javascript
+/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields for the new object.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last parameter is an error first callback function.
+ */
+V2Twilio.request(&#39;create&#39;, params, values, req.context, function(err, result) {
+  if (err) {
+    // Handle error
+  } else {
+    // result is the created object
+  }
+});
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Twilio in your custom code:</p>
+
+<pre><code class="javascript">/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields for the new object - not used in read calls.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last param is an error first callback function.
+ */
+var params = { limit: 10 };
+V2Twilio.request(&#39;read&#39;, params, values, req.context, function(err, result) {
+  if (err) {
+    // Handle error
+  } else {
+    // result is the found object
+  }
+});
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Twilio in your custom code:</p>
+
+<pre><code class="javascript">/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields to be updated.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last param is an error first callback function.
+ */
+V2Twilio.request(&#39;update&#39;, params, values, req.context, function(err, result) {
+  if (err) {
+    // Handle error
+  } else {
+    // result is the updated object
+  }
+});
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Twilio in your custom code:</p>
+
+<pre><code class="javascript">/* First parameter is the name of the action you&#39;d like to execute.
+ * params are additional URL parameters that you&#39;d like to send with the outgoing request.
+ * values should be an object containing the fields for the new object - not used in delete calls.
+ * context is the request context used for interpolating values within the call, this is
+ *  always req.context
+ * The last param is an error first callback function.
+ */
+V2Twilio.request(&#39;delete&#39;, params, values, req.context, function(err) {
+  if (err) {
+    // Handle error
+  }
+});
+```### Create
+
+If you want to create a User in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2User.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a User in your custom code:</p>
+
+<pre><code class="javascript">V2User.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a User in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2User.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a User in your custom code:</p>
+
+<pre><code class="javascript">V2User.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a UserAuditLogging in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2UserAuditLogging.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a UserAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2UserAuditLogging.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a UserAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2UserAuditLogging.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a UserAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2UserAuditLogging.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a UserSurvey in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2UserSurvey.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a UserSurvey in your custom code:</p>
+
+<pre><code class="javascript">V2UserSurvey.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a UserSurvey in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2UserSurvey.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a UserSurvey in your custom code:</p>
+
+<pre><code class="javascript">V2UserSurvey.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a UserSurveyAnswer in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2UserSurveyAnswer.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a UserSurveyAnswer in your custom code:</p>
+
+<pre><code class="javascript">V2UserSurveyAnswer.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a UserSurveyAnswer in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2UserSurveyAnswer.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a UserSurveyAnswer in your custom code:</p>
+
+<pre><code class="javascript">V2UserSurveyAnswer.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a UserSurveyVideo in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2UserSurveyVideo.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a UserSurveyVideo in your custom code:</p>
+
+<pre><code class="javascript">V2UserSurveyVideo.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a UserSurveyVideo in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2UserSurveyVideo.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a UserSurveyVideo in your custom code:</p>
+
+<pre><code class="javascript">V2UserSurveyVideo.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a VaccinationReminder in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2VaccinationReminder.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a VaccinationReminder in your custom code:</p>
+
+<pre><code class="javascript">V2VaccinationReminder.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a VaccinationReminder in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2VaccinationReminder.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a VaccinationReminder in your custom code:</p>
+
+<pre><code class="javascript">V2VaccinationReminder.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a Video in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2Video.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a Video in your custom code:</p>
+
+<pre><code class="javascript">V2Video.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a Video in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2Video.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a Video in your custom code:</p>
+
+<pre><code class="javascript">V2Video.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+```### Create
+
+If you want to create a VideoAuditLogging in your custom code:
+
+```javascript
+// Pass the create method an object containing the model attributes
+V2VideoAuditLogging.create(&lt;values&gt;)
+  .then(function(result) {
+    // result is the object created.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Read</h3>
+
+<p>If you want to find a VideoAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2VideoAuditLogging.findOne({id: &lt;id&gt;})
+  .then(function(result) {
+    // result is the object found.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  });
+</code></pre>
+
+<h3>Update</h3>
+
+<p>If you want to update a VideoAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">// params is the &quot;where&quot; portion of the update
+var params = {id: 1};
+V2VideoAuditLogging.update(params, &lt;values&gt;)
+  .then(function(result) {
+    // result is the updated object.
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h3>Destroy</h3>
+
+<p>If you want to destroy a VideoAuditLogging in your custom code:</p>
+
+<pre><code class="javascript">V2VideoAuditLogging.destroy(id)
+  .then(function() {
+    // success
+  })
+  .catch(function(err) {
+    // Handle any error that may occur
+  })
+</code></pre>
+
+<h2><a name="roles"></a> Roles</h2>
+
+<ul>
+<li>unauthenticated<br></li>
+<li>authenticated<em>without</em>role<br></li>
+<li>patient<br></li>
+<li>health<em>care</em>provider<br></li>
+<li>administrator<br></li>
+</ul>
+
+<h2><a name="api-versions"></a>API Versions</h2>
+
+<ul>
+<li>Version 2 at /api/v2 OR /api<br></li>
+<li>Version 1 at /api/v1<br></li>
+</ul>
+
+<h2><a name="storage-interfaces"></a> Storage Interfaces</h2>
+
+<ul>
+<li>AnyPresence Storage (Local)<br></li>
+<li>SendGrid (Http)<br></li>
+<li>TwilioAPI (Http)<br></li>
+<li>Encrypted Mysql (Mysql)<br></li>
+</ul>

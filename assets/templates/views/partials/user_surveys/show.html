@@ -1,0 +1,107 @@
+<ul class="breadcrumb">
+  <li><a href="#/index">Home</a></li>
+  <li><a href="#/user_surveys">User surveys</a></li>
+  <li class="active">User survey</li>
+</ul>
+
+<div class="page-header">
+  <h1>User survey</h1>
+  <a class="btn btn-primary" ng-href="#/user_surveys/{{instance.id}}/edit">
+    <i class="fa fa-pencil"></i>
+    Edit
+  </a>
+</div>
+
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+</div>
+
+<table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>{{instance.id}}</td>
+    </tr>
+    <tr>
+      <td>Completed At</td>
+      <td>{{instance.completed_at}}</td>
+    </tr>
+    <tr>
+      <td>Completition</td>
+      <td>{{instance.completition}}</td>
+    </tr>
+    <tr>
+      <td>Created At</td>
+      <td>{{instance.created_at}}</td>
+    </tr>
+    <tr>
+      <td>Currentuseranswers</td>
+      <td>{{instance.currentuseranswers}}</td>
+    </tr>
+    <tr>
+      <td>First Question</td>
+      <td>{{instance.first_question}}</td>
+    </tr>
+    <tr>
+      <td>First Question</td>
+      <td>{{instance.first_question_id}}</td>
+    </tr>
+    <tr>
+      <td>First Reminder</td>
+      <td>{{instance.first_reminder}}</td>
+    </tr>
+    <tr>
+      <td>Is Complete</td>
+      <td>{{instance.is_complete}}</td>
+    </tr>
+    <tr>
+      <td>Matched Videos</td>
+      <td>{{instance.matched_videos}}</td>
+    </tr>
+    <tr>
+      <td>Maternal Video Complete</td>
+      <td>{{instance.maternal_video_complete}}</td>
+    </tr>
+    <tr>
+      <td>Maternal Video Number</td>
+      <td>{{instance.maternal_video_number}}</td>
+    </tr>
+    <tr>
+      <td>Maternal Video Position</td>
+      <td>{{instance.maternal_video_position}}</td>
+    </tr>
+    <tr>
+      <td>Pediatric Video Complete</td>
+      <td>{{instance.pediatric_video_complete}}</td>
+    </tr>
+    <tr>
+      <td>Pediatric Video Number</td>
+      <td>{{instance.pediatric_video_number}}</td>
+    </tr>
+    <tr>
+      <td>Pediatric Video Position</td>
+      <td>{{instance.pediatric_video_position}}</td>
+    </tr>
+    <tr>
+      <td>Question Count</td>
+      <td>{{instance.question_count}}</td>
+    </tr>
+    <tr>
+      <td>Second Reminder</td>
+      <td>{{instance.second_reminder}}</td>
+    </tr>
+    <tr>
+      <td>Survey</td>
+      <td>{{instance.survey_id}}</td>
+    </tr>
+    <tr>
+      <td>User</td>
+      <td>{{instance.user_id}}</td>
+    </tr>
+    <tr>
+      <td>Video Source Version</td>
+      <td>{{instance.video_source_version}}</td>
+    </tr>
+  </tbody>
+</table>

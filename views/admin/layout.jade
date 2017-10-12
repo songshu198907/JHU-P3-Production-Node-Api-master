@@ -1,0 +1,124 @@
+doctype html
+html(lang="en", xml:lang="en", xmlns="http://www.w3.org/1999/xhtml")
+  head
+    title VaccineSurvey
+    meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1")
+    // STYLES
+    link(rel="stylesheet", href="/styles/ap-styles.css")
+    link(rel="stylesheet", href="/styles/bootstrap-theme.css")
+    link(rel="stylesheet", href="/styles/bootstrap.css")
+    link(rel="stylesheet", href="/styles/importer.css")
+    link(rel="stylesheet", href="/styles/messaging.css")
+    // STYLES END
+    link(href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", rel="stylesheet")
+    // SCRIPTS
+    script(src="/js/dependencies/sails.io.js")
+    script(src="/js/dependencies/jquery-1.11.0.js")
+    script(src="/js/dependencies/angular.js")
+    script(src="/js/dependencies/angular-cookies.js")
+    script(src="/js/dependencies/angular-mocks.js")
+    script(src="/js/dependencies/angular-resource.js")
+    script(src="/js/dependencies/angular-route.js")
+    script(src="/js/dependencies/bootstrap.js")
+    script(src="/js/dependencies/d3.js")
+    script(src="/js/dependencies/line-chart.js")
+    script(src="/js/dependencies/moment.js")
+    script(src="/js/dependencies/ng-file-upload-shim.js")
+    script(src="/js/dependencies/ng-file-upload.js")
+    script(src="/js/app.js")
+    script(src="/application/services.js")
+    script(src="/application/controllers/AnalyticsController.js")
+    script(src="/application/controllers/AppController.js")
+    script(src="/application/controllers/ChannelController.js")
+    script(src="/application/controllers/DeviceController.js")
+    script(src="/application/controllers/MessageController.js")
+    script(src="/application/controllers/V1ClinicianBlockRandomizerController.js")
+    script(src="/application/controllers/V1ClinicianCodeController.js")
+    script(src="/application/controllers/V1EducationController.js")
+    script(src="/application/controllers/V1HealthcareProviderContentController.js")
+    script(src="/application/controllers/V1JobAuditLoggingController.js")
+    script(src="/application/controllers/V1QuestionCategoryController.js")
+    script(src="/application/controllers/V1QuestionCodeController.js")
+    script(src="/application/controllers/V1QuestionTypeController.js")
+    script(src="/application/controllers/V1RaceController.js")
+    script(src="/application/controllers/V1SearchAuditLoggingController.js")
+    script(src="/application/controllers/V1SendGridController.js")
+    script(src="/application/controllers/V1SettingController.js")
+    script(src="/application/controllers/V1SurveyAnswerController.js")
+    script(src="/application/controllers/V1SurveyController.js")
+    script(src="/application/controllers/V1SurveyQuestionController.js")
+    script(src="/application/controllers/V1SurveyQuestionSkipLogicController.js")
+    script(src="/application/controllers/V1TopicController.js")
+    script(src="/application/controllers/V1TwilioController.js")
+    script(src="/application/controllers/V1UserAuditLoggingController.js")
+    script(src="/application/controllers/V1UserController.js")
+    script(src="/application/controllers/V1UserSurveyAnswerController.js")
+    script(src="/application/controllers/V1UserSurveyController.js")
+    script(src="/application/controllers/V1VaccinationReminderController.js")
+    script(src="/application/controllers/V1VideoAuditLoggingController.js")
+    script(src="/application/controllers/V1VideoController.js")
+    script(src="/application/controllers/V2ClinicianBlockRandomizerController.js")
+    script(src="/application/controllers/V2ClinicianCodeController.js")
+    script(src="/application/controllers/V2EducationController.js")
+    script(src="/application/controllers/V2HealthcareProviderContentController.js")
+    script(src="/application/controllers/V2JobAuditLoggingController.js")
+    script(src="/application/controllers/V2QuestionCategoryController.js")
+    script(src="/application/controllers/V2QuestionCodeController.js")
+    script(src="/application/controllers/V2QuestionTypeController.js")
+    script(src="/application/controllers/V2RaceController.js")
+    script(src="/application/controllers/V2SearchAuditLoggingController.js")
+    script(src="/application/controllers/V2SendGridController.js")
+    script(src="/application/controllers/V2SettingController.js")
+    script(src="/application/controllers/V2SurveyAnswerController.js")
+    script(src="/application/controllers/V2SurveyController.js")
+    script(src="/application/controllers/V2SurveyQuestionController.js")
+    script(src="/application/controllers/V2SurveyQuestionSkipLogicController.js")
+    script(src="/application/controllers/V2TopicController.js")
+    script(src="/application/controllers/V2TwilioController.js")
+    script(src="/application/controllers/V2UserAuditLoggingController.js")
+    script(src="/application/controllers/V2UserController.js")
+    script(src="/application/controllers/V2UserSurveyAnswerController.js")
+    script(src="/application/controllers/V2UserSurveyController.js")
+    script(src="/application/controllers/V2UserSurveyVideoController.js")
+    script(src="/application/controllers/V2VaccinationReminderController.js")
+    script(src="/application/controllers/V2VideoAuditLoggingController.js")
+    script(src="/application/controllers/V2VideoController.js")
+    script(src="/application/controllers.js")
+    script(src="/application/directives.js")
+    script(src="/application/app.js")
+    // SCRIPTS END
+  body(ng-app="adminConsole")
+    .header(ng-controller="HeaderController")
+      .navbar.navbar-inverse(ng-if="isLoggedIn()")
+        .navbar-header
+          button.navbar-toggle(data-toggle="collapse", data-target=".navbar-ex1-collapse")
+            span.sr-only Toggle navigation
+            span.fa.fa-bars
+          .navbar-brand.
+            API v2
+        .collapse.navbar-collapse.navbar-ex1-collapse
+          ul.nav.navbar-nav
+            li
+              a(href="#/index") Objects
+            li.enabled
+              a(href="#/messaging") Messaging
+            li.enabled
+              a(href="#/analytics") Analytics
+            li.enabled.dropdown
+              a(data-toggle="dropdown").dropdown-toggle Documentation
+              ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu')
+                li
+                  a(href='#/docs', tabindex='-1') General Documentation
+                li.divider
+                li
+                
+                  a(href='#/documentation#v2', tabindex='-1') API v2
+                
+                  a(href='#/documentation#v1', tabindex='-1') API v1
+                
+          ul.nav.navbar-nav.pull-right
+            li.disabled
+              a(href="#/edit_admin") {{getCurrentUser()}}
+            li
+              a(href="#/sign_out") Sign out
+    block body

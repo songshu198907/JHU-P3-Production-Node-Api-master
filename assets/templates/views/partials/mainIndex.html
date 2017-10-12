@@ -1,0 +1,106 @@
+<div class="row" ng-controller="MainIndexController">
+  <div class="col-md-5">
+    <div class="panel panel-default" heading="Base API" type="default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Base API</h3>
+      </div>
+      <div class="panel-body">
+        Current API: <code>/api/v2</code>
+      </div>
+      <div class="panel-body">
+        Latest API: <code>/api</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+      <thead>
+      <tr>
+        <th>Object</th>
+        <th class="text-right">Count</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+          
+          
+          
+          
+          <tr>
+            <td>
+              <i class="fa fa-th"></i>
+              <a href="#/healthcare_provider_contents">Healthcare Provider Contents</a>
+            </td>
+            <td class="text-right">
+              
+                  <div class="text-muted" ng-if="objectCounts != null && objectCounts.healthcareProviderContent != null">{{ objectCounts.healthcareProviderContent }}</div>
+                  <div class="text-muted" ng-if="objectCounts == null || objectCounts.healthcareProviderContent == null">n/a</div>
+              
+            </td>
+          </tr>
+      
+          
+          
+          
+          
+          
+          
+          
+          
+          <tr>
+            <td>
+              <i class="fa fa-th"></i>
+              <a href="#/settings">Settings</a>
+            </td>
+            <td class="text-right">
+              
+                  <div class="text-muted" ng-if="objectCounts != null && objectCounts.setting != null">{{ objectCounts.setting }}</div>
+                  <div class="text-muted" ng-if="objectCounts == null || objectCounts.setting == null">n/a</div>
+              
+            </td>
+          </tr>
+      
+          
+          
+          
+          
+          
+          
+          
+          <tr>
+            <td>
+              <i class="fa fa-th"></i>
+              <a href="#/users">Users</a>
+            </td>
+            <td class="text-right">
+              
+                  <div class="text-muted" ng-if="objectCounts != null && objectCounts.user != null">{{ objectCounts.user }}</div>
+                  <div class="text-muted" ng-if="objectCounts == null || objectCounts.user == null">n/a</div>
+              
+            </td>
+          </tr>
+      
+          
+          
+          
+          
+          <tr>
+            <td>
+              <i class="fa fa-th"></i>
+              <a href="#/user_survey_videos">User Survey Videos</a>
+            </td>
+            <td class="text-right">
+              
+                  <div class="text-muted" ng-if="objectCounts != null && objectCounts.userSurveyVideo != null">{{ objectCounts.userSurveyVideo }}</div>
+                  <div class="text-muted" ng-if="objectCounts == null || objectCounts.userSurveyVideo == null">n/a</div>
+              
+            </td>
+          </tr>
+      
+          
+          
+          
+      </tbody>
+    </table>
+  </div>
+</div>

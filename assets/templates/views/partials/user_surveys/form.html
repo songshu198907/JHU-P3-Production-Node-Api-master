@@ -1,0 +1,292 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="completed_at" label="Completed at" required="false" property="instance.completed_at" type="text" errors="errors.completed_at"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="completition" label="Completition" required="false" property="instance.completition" type="number" errors="errors.completition"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="created_at" label="Created at" required="false" property="instance.created_at" type="text" errors="errors.created_at"></form-input>
+        
+        
+    
+        
+            <fieldset>
+              <div>
+                <label>currentuseranswers</label>
+              </div>
+              <div>
+                <table class="table table-striped">
+                  <thead>
+                  <th>#</th>
+                  <th>Value</th>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="value in instance.currentuseranswers track by $index">
+                    <td>
+                      <small>{{ $index }}</small>
+                    </td>
+                    <td>
+                      <input type="text" ng-model="value" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-danger" ng-click="removeToken('currentuseranswers', value)">Delete</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input type="text" placeholder="New key name.." ng-model="value" class="form-control control-label"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary" ng-click="addToken('currentuseranswers', value)">Add</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+        
+        
+        
+        
+    
+        
+        
+            <fieldset>
+              <div>
+                <label>first_question</label>
+              </div>
+              <div>
+                <table class="table table-striped">
+                  <thead>
+                  <th>#</th>
+                  <th>Key</th>
+                  <th>Value</th>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="(key, value) in instance.first_question track by $index">
+                    <td>
+                      <small>{{ $index }}</small>
+                    </td>
+                    <td>
+                      <span><strong>{{key}}</strong></span>
+                    </td>
+                    <td>
+                      <input type="text" ng-model="instance.first_question[key]" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-danger" ng-click="deleteHashKey('first_question', key)">Delete</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <input type="text" placeholder="New key name.." ng-model="newHashKeys['first_question']" class="form-control"/>
+                    </td>
+                    <td>
+                      <input type="text" placeholder="Value.." ng-model="newHashValues['first_question']" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary" ng-click="addKey('first_question')">Add</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+        
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="first_question_id" label="First question" required="false" property="instance.first_question_id" type="number" errors="errors.first_question_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="first_reminder" label="First reminder" required="false" property="instance.first_reminder" type="checkbox" errors="errors.first_reminder"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="is_complete" label="Is complete" required="false" property="instance.is_complete" type="checkbox" errors="errors.is_complete"></form-input>
+        
+        
+    
+        
+            <fieldset>
+              <div>
+                <label>matched_videos</label>
+              </div>
+              <div>
+                <table class="table table-striped">
+                  <thead>
+                  <th>#</th>
+                  <th>Value</th>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="value in instance.matched_videos track by $index">
+                    <td>
+                      <small>{{ $index }}</small>
+                    </td>
+                    <td>
+                      <input type="text" ng-model="value" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-danger" ng-click="removeToken('matched_videos', value)">Delete</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input type="text" placeholder="New key name.." ng-model="value" class="form-control control-label"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary" ng-click="addToken('matched_videos', value)">Add</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+        
+        
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="maternal_video_complete" label="Maternal video complete" required="false" property="instance.maternal_video_complete" type="checkbox" errors="errors.maternal_video_complete"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="maternal_video_number" label="Maternal video number" required="false" property="instance.maternal_video_number" type="text" errors="errors.maternal_video_number"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="maternal_video_position" label="Maternal video position" required="false" property="instance.maternal_video_position" type="number" errors="errors.maternal_video_position"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="pediatric_video_complete" label="Pediatric video complete" required="false" property="instance.pediatric_video_complete" type="checkbox" errors="errors.pediatric_video_complete"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="pediatric_video_number" label="Pediatric video number" required="false" property="instance.pediatric_video_number" type="text" errors="errors.pediatric_video_number"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="pediatric_video_position" label="Pediatric video position" required="false" property="instance.pediatric_video_position" type="number" errors="errors.pediatric_video_position"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_count" label="Question count" required="false" property="instance.question_count" type="number" errors="errors.question_count"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="second_reminder" label="Second reminder" required="false" property="instance.second_reminder" type="checkbox" errors="errors.second_reminder"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_id" label="Survey" required="true" property="instance.survey_id" type="number" errors="errors.survey_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="user_id" label="User" required="true" property="instance.user_id" type="number" errors="errors.user_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_source_version" label="Video source version" required="false" property="instance.video_source_version" type="text" errors="errors.video_source_version"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/user_surveys" class="btn">Cancel</a>
+</div>

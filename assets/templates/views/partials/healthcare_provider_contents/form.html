@@ -1,0 +1,65 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="category_group" label="Category group" required="false" property="instance.category_group" type="text" errors="errors.category_group"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="desc" label="Desc" required="false" property="instance.desc" type="text" errors="errors.desc"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="external_link" label="External link" required="false" property="instance.external_link" type="text" errors="errors.external_link"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="keywords" label="Keywords" required="false" property="instance.keywords" type="text" errors="errors.keywords"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="title" label="Title" required="true" property="instance.title" type="text" errors="errors.title"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="topic_id" label="Topic" required="false" property="instance.topic_id" type="number" errors="errors.topic_id"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/healthcare_provider_contents" class="btn">Cancel</a>
+</div>

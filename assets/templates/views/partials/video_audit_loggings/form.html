@@ -1,0 +1,56 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="created_at" label="Created at" required="false" property="instance.created_at" type="text" errors="errors.created_at"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="duration" label="Duration" required="false" property="instance.duration" type="number" errors="errors.duration"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="user_id" label="User" required="false" property="instance.user_id" type="number" errors="errors.user_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_id" label="Video" required="false" property="instance.video_id" type="number" errors="errors.video_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="watched_entire_video" label="Watched entire video" required="false" property="instance.watched_entire_video" type="checkbox" errors="errors.watched_entire_video"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/video_audit_loggings" class="btn">Cancel</a>
+</div>

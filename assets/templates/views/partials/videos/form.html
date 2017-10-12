@@ -1,0 +1,110 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="desc" label="Desc" required="false" property="instance.desc" type="text" errors="errors.desc"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="is_active" label="Is active" required="false" property="instance.is_active" type="checkbox" errors="errors.is_active"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="keywords" label="Keywords" required="false" property="instance.keywords" type="text" errors="errors.keywords"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="length" label="Length" required="false" property="instance.length" type="number" errors="errors.length"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_group" label="Question group" required="false" property="instance.question_group" type="text" errors="errors.question_group"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="sort_order" label="Sort order" required="false" property="instance.sort_order" type="number" errors="errors.sort_order"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="source_version" label="Source version" required="false" property="instance.source_version" type="text" errors="errors.source_version"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="target_number" label="Target number" required="false" property="instance.target_number" type="number" errors="errors.target_number"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="title" label="Title" required="true" property="instance.title" type="text" errors="errors.title"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="topic_id" label="Topic" required="false" property="instance.topic_id" type="number" errors="errors.topic_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_url" label="Video url" required="false" property="instance.video_url" type="text" errors="errors.video_url"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/videos" class="btn">Cancel</a>
+</div>

@@ -1,0 +1,74 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="allow_free_form" label="Allow free form" required="false" property="instance.allow_free_form" type="checkbox" errors="errors.allow_free_form"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="free_form_data_type" label="Free form data type" required="false" property="instance.free_form_data_type" type="text" errors="errors.free_form_data_type"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="label" label="Label" required="true" property="instance.label" type="text" errors="errors.label"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="sort_order" label="Sort order" required="true" property="instance.sort_order" type="number" errors="errors.sort_order"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_question_id" label="Survey question" required="true" property="instance.survey_question_id" type="number" errors="errors.survey_question_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_target_number" label="Video target number" required="false" property="instance.video_target_number" type="number" errors="errors.video_target_number"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="weight" label="Weight" required="false" property="instance.weight" type="number" errors="errors.weight"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/survey_answers" class="btn">Cancel</a>
+</div>

@@ -1,0 +1,74 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="is_complete" label="Is complete" required="false" property="instance.is_complete" type="checkbox" errors="errors.is_complete"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="sort_order" label="Sort order" required="false" property="instance.sort_order" type="number" errors="errors.sort_order"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="user_survey_id" label="User survey" required="true" property="instance.user_survey_id" type="number" errors="errors.user_survey_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_number" label="Video number" required="true" property="instance.video_number" type="number" errors="errors.video_number"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_position" label="Video position" required="false" property="instance.video_position" type="number" errors="errors.video_position"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_source_version" label="Video source version" required="false" property="instance.video_source_version" type="text" errors="errors.video_source_version"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_type" label="Video type" required="false" property="instance.video_type" type="text" errors="errors.video_type"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/user_survey_videos" class="btn">Cancel</a>
+</div>

@@ -1,0 +1,101 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="did_you_know_text" label="Did you know text" required="false" property="instance.did_you_know_text" type="text" errors="errors.did_you_know_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="label" label="Label" required="true" property="instance.label" type="text" errors="errors.label"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_category_id" label="Question category" required="false" property="instance.question_category_id" type="number" errors="errors.question_category_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_code_id" label="Question code" required="false" property="instance.question_code_id" type="number" errors="errors.question_code_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_group" label="Question group" required="true" property="instance.question_group" type="text" errors="errors.question_group"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_text" label="Question text" required="false" property="instance.question_text" type="text" errors="errors.question_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_type_id" label="Question type" required="true" property="instance.question_type_id" type="number" errors="errors.question_type_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="required_answer" label="Required answer" required="false" property="instance.required_answer" type="checkbox" errors="errors.required_answer"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="sort_order" label="Sort order" required="true" property="instance.sort_order" type="number" errors="errors.sort_order"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_id" label="Survey" required="true" property="instance.survey_id" type="number" errors="errors.survey_id"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/survey_questions" class="btn">Cancel</a>
+</div>

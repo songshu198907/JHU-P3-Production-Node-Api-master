@@ -1,0 +1,67 @@
+<ul class="breadcrumb">
+  <li><a href="#/index">Home</a></li>
+  <li><a href="#/survey_questions">Survey questions</a></li>
+  <li class="active">Survey question</li>
+</ul>
+
+<div class="page-header">
+  <h1>Survey question</h1>
+  <a class="btn btn-primary" ng-href="#/survey_questions/{{instance.id}}/edit">
+    <i class="fa fa-pencil"></i>
+    Edit
+  </a>
+</div>
+
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+</div>
+
+<table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>{{instance.id}}</td>
+    </tr>
+    <tr>
+      <td>Did You Know Text</td>
+      <td>{{instance.did_you_know_text}}</td>
+    </tr>
+    <tr>
+      <td>Label</td>
+      <td>{{instance.label}}</td>
+    </tr>
+    <tr>
+      <td>Question Category</td>
+      <td>{{instance.question_category_id}}</td>
+    </tr>
+    <tr>
+      <td>Question Code</td>
+      <td>{{instance.question_code_id}}</td>
+    </tr>
+    <tr>
+      <td>Question Group</td>
+      <td>{{instance.question_group}}</td>
+    </tr>
+    <tr>
+      <td>Question Text</td>
+      <td>{{instance.question_text}}</td>
+    </tr>
+    <tr>
+      <td>Question Type</td>
+      <td>{{instance.question_type_id}}</td>
+    </tr>
+    <tr>
+      <td>Required Answer</td>
+      <td>{{instance.required_answer}}</td>
+    </tr>
+    <tr>
+      <td>Sort Order</td>
+      <td>{{instance.sort_order}}</td>
+    </tr>
+    <tr>
+      <td>Survey</td>
+      <td>{{instance.survey_id}}</td>
+    </tr>
+  </tbody>
+</table>

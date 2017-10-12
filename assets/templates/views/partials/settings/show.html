@@ -1,0 +1,91 @@
+<ul class="breadcrumb">
+  <li><a href="#/index">Home</a></li>
+  <li><a href="#/settings">Settings</a></li>
+  <li class="active">Setting</li>
+</ul>
+
+<div class="page-header">
+  <h1>Setting</h1>
+  <a class="btn btn-primary" ng-href="#/settings/{{instance.id}}/edit">
+    <i class="fa fa-pencil"></i>
+    Edit
+  </a>
+</div>
+
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+</div>
+
+<table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>{{instance.id}}</td>
+    </tr>
+    <tr>
+      <td>Aws Healthcare Content Bucket Name</td>
+      <td>{{instance.aws_healthcare_content_bucket_name}}</td>
+    </tr>
+    <tr>
+      <td>Aws Video Bucket Name</td>
+      <td>{{instance.aws_video_bucket_name}}</td>
+    </tr>
+    <tr>
+      <td>Contact User Registration Email Text</td>
+      <td>{{instance.contact_user_registration_email_text}}</td>
+    </tr>
+    <tr>
+      <td>Contact User Registration Subject</td>
+      <td>{{instance.contact_user_registration_subject}}</td>
+    </tr>
+    <tr>
+      <td>Forgot Password Email Text</td>
+      <td>{{instance.forgot_password_email_text}}</td>
+    </tr>
+    <tr>
+      <td>Forgot Password Subject</td>
+      <td>{{instance.forgot_password_subject}}</td>
+    </tr>
+    <tr>
+      <td>From Email</td>
+      <td>{{instance.from_email}}</td>
+    </tr>
+    <tr>
+      <td>Sms Phone Number</td>
+      <td>{{instance.sms_phone_number}}</td>
+    </tr>
+    <tr>
+      <td>Survey Completion Email Subject</td>
+      <td>{{instance.survey_completion_email_subject}}</td>
+    </tr>
+    <tr>
+      <td>Survey Completion Email Text</td>
+      <td>{{instance.survey_completion_email_text}}</td>
+    </tr>
+    <tr>
+      <td>Survey Notification Email Text</td>
+      <td>{{instance.survey_notification_email_text}}</td>
+    </tr>
+    <tr>
+      <td>Survey Notification Final Sms Text</td>
+      <td>{{instance.survey_notification_final_sms_text}}</td>
+    </tr>
+    <tr>
+      <td>Survey Notification First Reminder Email Text</td>
+      <td>{{instance.survey_notification_first_reminder_email_text}}</td>
+    </tr>
+    <tr>
+      <td>Survey Notification First Reminder Subject</td>
+      <td>{{instance.survey_notification_first_reminder_subject}}</td>
+    </tr>
+    <tr>
+      <td>Survey Notification Subject</td>
+      <td>{{instance.survey_notification_subject}}</td>
+    </tr>
+    <tr>
+      <td>Terms And Conditions</td>
+      <td>{{instance.terms_and_conditions}}</td>
+    </tr>
+  </tbody>
+</table>

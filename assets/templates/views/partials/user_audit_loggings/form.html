@@ -1,0 +1,56 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="ip_address" label="Ip address" required="false" property="instance.ip_address" type="text" errors="errors.ip_address"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="logged_in_at" label="Logged in at" required="false" property="instance.logged_in_at" type="text" errors="errors.logged_in_at"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="logged_out_at" label="Logged out at" required="false" property="instance.logged_out_at" type="text" errors="errors.logged_out_at"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="user_agent" label="User agent" required="false" property="instance.user_agent" type="text" errors="errors.user_agent"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="user_id" label="User" required="true" property="instance.user_id" type="number" errors="errors.user_id"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/user_audit_loggings" class="btn">Cancel</a>
+</div>

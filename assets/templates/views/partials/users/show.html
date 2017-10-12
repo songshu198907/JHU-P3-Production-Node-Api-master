@@ -1,0 +1,171 @@
+<ul class="breadcrumb">
+  <li><a href="#/index">Home</a></li>
+  <li><a href="#/users">Users</a></li>
+  <li class="active">User</li>
+</ul>
+
+<div class="page-header">
+  <h1>User</h1>
+  <a class="btn btn-primary" ng-href="#/users/{{instance.id}}/edit">
+    <i class="fa fa-pencil"></i>
+    Edit
+  </a>
+</div>
+
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+</div>
+
+<table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>{{instance.id}}</td>
+    </tr>
+    <tr>
+      <td>Actual Child Birth</td>
+      <td>{{instance.actual_child_birth}}</td>
+    </tr>
+    <tr>
+      <td>Address</td>
+      <td>{{instance.address}}</td>
+    </tr>
+    <tr>
+      <td>Cell Phone</td>
+      <td>{{instance.cell_phone}}</td>
+    </tr>
+    <tr>
+      <td>City</td>
+      <td>{{instance.city}}</td>
+    </tr>
+    <tr>
+      <td>Clinician Code</td>
+      <td>{{instance.clinician_code_id}}</td>
+    </tr>
+    <tr>
+      <td>Clinic Name</td>
+      <td>{{instance.clinic_name}}</td>
+    </tr>
+    <tr>
+      <td>Consent Accepted On</td>
+      <td>{{instance.consent_accepted_on}}</td>
+    </tr>
+    <tr>
+      <td>Contact Cell Phone</td>
+      <td>{{instance.contact_cell_phone}}</td>
+    </tr>
+    <tr>
+      <td>Contact Email</td>
+      <td>{{instance.contact_email}}</td>
+    </tr>
+    <tr>
+      <td>Contact Home Phone</td>
+      <td>{{instance.contact_home_phone}}</td>
+    </tr>
+    <tr>
+      <td>Contact Name</td>
+      <td>{{instance.contact_name}}</td>
+    </tr>
+    <tr>
+      <td>Deactivated On</td>
+      <td>{{instance.deactivated_on}}</td>
+    </tr>
+    <tr>
+      <td>Education</td>
+      <td>{{instance.education_id}}</td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>{{instance.email}}</td>
+    </tr>
+    <tr>
+      <td>Expected Child Birth</td>
+      <td>{{instance.expected_child_birth}}</td>
+    </tr>
+    <tr>
+      <td>First Name</td>
+      <td>{{instance.first_name}}</td>
+    </tr>
+    <tr>
+      <td>Has Contact Users</td>
+      <td>{{instance.has_contact_users}}</td>
+    </tr>
+    <tr>
+      <td>Home Phone</td>
+      <td>{{instance.home_phone}}</td>
+    </tr>
+    <tr>
+      <td>Intervention Group</td>
+      <td>{{instance.intervention_group}}</td>
+    </tr>
+    <tr>
+      <td>Is Deactive</td>
+      <td>{{instance.is_deactive}}</td>
+    </tr>
+    <tr>
+      <td>Last Name</td>
+      <td>{{instance.last_name}}</td>
+    </tr>
+    <tr>
+      <td>Parent Relationship Type</td>
+      <td>{{instance.parent_relationship_type}}</td>
+    </tr>
+    <tr>
+      <td>Parent User</td>
+      <td>{{instance.parent_user_id}}</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td>{{instance.password}}</td>
+    </tr>
+    <tr>
+      <td>Password Confirmation</td>
+      <td>{{instance.password_confirmation}}</td>
+    </tr>
+    <tr>
+      <td>Password Digest</td>
+      <td>{{instance.password_digest}}</td>
+    </tr>
+    <tr>
+      <td>Patient Type</td>
+      <td>{{instance.patient_type}}</td>
+    </tr>
+    <tr>
+      <td>Postal Code</td>
+      <td>{{instance.postal_code}}</td>
+    </tr>
+    <tr>
+      <td>Race</td>
+      <td>{{instance.race_id}}</td>
+    </tr>
+    <tr>
+      <td>Reason For Deactivation</td>
+      <td>{{instance.reason_for_deactivation}}</td>
+    </tr>
+    <tr>
+      <td>Reset Password</td>
+      <td>{{instance.reset_password}}</td>
+    </tr>
+    <tr>
+      <td>Role</td>
+      <td>{{instance.role}}</td>
+    </tr>
+    <tr>
+      <td>State</td>
+      <td>{{instance.state}}</td>
+    </tr>
+    <tr>
+      <td>Updated User Profile</td>
+      <td>{{instance.updated_user_profile}}</td>
+    </tr>
+    <tr>
+      <td>Vaccination Reminders</td>
+      <td>{{instance.vaccination_reminders}}</td>
+    </tr>
+    <tr>
+      <td>X Session</td>
+      <td>{{instance.x_session_id}}</td>
+    </tr>
+  </tbody>
+</table>

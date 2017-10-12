@@ -1,0 +1,155 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="aws_healthcare_content_bucket_name" label="Aws healthcare content bucket name" required="false" property="instance.aws_healthcare_content_bucket_name" type="text" errors="errors.aws_healthcare_content_bucket_name"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="aws_video_bucket_name" label="Aws video bucket name" required="false" property="instance.aws_video_bucket_name" type="text" errors="errors.aws_video_bucket_name"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="contact_user_registration_email_text" label="Contact user registration email text" required="false" property="instance.contact_user_registration_email_text" type="text" errors="errors.contact_user_registration_email_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="contact_user_registration_subject" label="Contact user registration subject" required="false" property="instance.contact_user_registration_subject" type="text" errors="errors.contact_user_registration_subject"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="forgot_password_email_text" label="Forgot password email text" required="false" property="instance.forgot_password_email_text" type="text" errors="errors.forgot_password_email_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="forgot_password_subject" label="Forgot password subject" required="false" property="instance.forgot_password_subject" type="text" errors="errors.forgot_password_subject"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="from_email" label="From email" required="false" property="instance.from_email" type="text" errors="errors.from_email"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="sms_phone_number" label="Sms phone number" required="false" property="instance.sms_phone_number" type="text" errors="errors.sms_phone_number"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_completion_email_subject" label="Survey completion email subject" required="false" property="instance.survey_completion_email_subject" type="text" errors="errors.survey_completion_email_subject"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_completion_email_text" label="Survey completion email text" required="false" property="instance.survey_completion_email_text" type="text" errors="errors.survey_completion_email_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_notification_email_text" label="Survey notification email text" required="false" property="instance.survey_notification_email_text" type="text" errors="errors.survey_notification_email_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_notification_final_sms_text" label="Survey notification final sms text" required="false" property="instance.survey_notification_final_sms_text" type="text" errors="errors.survey_notification_final_sms_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_notification_first_reminder_email_text" label="Survey notification first reminder email text" required="false" property="instance.survey_notification_first_reminder_email_text" type="text" errors="errors.survey_notification_first_reminder_email_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_notification_first_reminder_subject" label="Survey notification first reminder subject" required="false" property="instance.survey_notification_first_reminder_subject" type="text" errors="errors.survey_notification_first_reminder_subject"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_notification_subject" label="Survey notification subject" required="false" property="instance.survey_notification_subject" type="text" errors="errors.survey_notification_subject"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="terms_and_conditions" label="Terms and conditions" required="false" property="instance.terms_and_conditions" type="text" errors="errors.terms_and_conditions"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/settings" class="btn">Cancel</a>
+</div>

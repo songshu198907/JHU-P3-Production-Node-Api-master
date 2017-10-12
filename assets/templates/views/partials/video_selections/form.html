@@ -1,0 +1,29 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="answers_set" label="Answers set" required="true" property="instance.answers_set" type="text" errors="errors.answers_set"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="video_id" label="Video" required="false" property="instance.video_id" type="number" errors="errors.video_id"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/video_selections" class="btn">Cancel</a>
+</div>

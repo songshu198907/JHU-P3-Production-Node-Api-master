@@ -1,0 +1,188 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="applied_skip_logic_id" label="Applied skip logic" required="false" property="instance.applied_skip_logic_id" type="number" errors="errors.applied_skip_logic_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="free_form_response" label="Free form response" required="false" property="instance.free_form_response" type="text" errors="errors.free_form_response"></form-input>
+        
+        
+    
+        
+        
+            <fieldset>
+              <div>
+                <label>nextquestion</label>
+              </div>
+              <div>
+                <table class="table table-striped">
+                  <thead>
+                  <th>#</th>
+                  <th>Key</th>
+                  <th>Value</th>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="(key, value) in instance.nextquestion track by $index">
+                    <td>
+                      <small>{{ $index }}</small>
+                    </td>
+                    <td>
+                      <span><strong>{{key}}</strong></span>
+                    </td>
+                    <td>
+                      <input type="text" ng-model="instance.nextquestion[key]" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-danger" ng-click="deleteHashKey('nextquestion', key)">Delete</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <input type="text" placeholder="New key name.." ng-model="newHashKeys['nextquestion']" class="form-control"/>
+                    </td>
+                    <td>
+                      <input type="text" placeholder="Value.." ng-model="newHashValues['nextquestion']" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary" ng-click="addKey('nextquestion')">Add</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+        
+        
+        
+    
+        
+        
+            <fieldset>
+              <div>
+                <label>previousquestion</label>
+              </div>
+              <div>
+                <table class="table table-striped">
+                  <thead>
+                  <th>#</th>
+                  <th>Key</th>
+                  <th>Value</th>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="(key, value) in instance.previousquestion track by $index">
+                    <td>
+                      <small>{{ $index }}</small>
+                    </td>
+                    <td>
+                      <span><strong>{{key}}</strong></span>
+                    </td>
+                    <td>
+                      <input type="text" ng-model="instance.previousquestion[key]" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-danger" ng-click="deleteHashKey('previousquestion', key)">Delete</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <input type="text" placeholder="New key name.." ng-model="newHashKeys['previousquestion']" class="form-control"/>
+                    </td>
+                    <td>
+                      <input type="text" placeholder="Value.." ng-model="newHashValues['previousquestion']" class="form-control"/>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary" ng-click="addKey('previousquestion')">Add</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+        
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_code_id" label="Question code" required="false" property="instance.question_code_id" type="number" errors="errors.question_code_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_group" label="Question group" required="false" property="instance.question_group" type="text" errors="errors.question_group"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="question_order" label="Question order" required="false" property="instance.question_order" type="number" errors="errors.question_order"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="skipped" label="Skipped" required="false" property="instance.skipped" type="checkbox" errors="errors.skipped"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_answer_id" label="Survey answer" required="false" property="instance.survey_answer_id" type="number" errors="errors.survey_answer_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_question_id" label="Survey question" required="true" property="instance.survey_question_id" type="number" errors="errors.survey_question_id"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="user_survey_id" label="User survey" required="true" property="instance.user_survey_id" type="number" errors="errors.user_survey_id"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/user_survey_answers" class="btn">Cancel</a>
+</div>

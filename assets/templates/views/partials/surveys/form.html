@@ -1,0 +1,74 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="intervention_group" label="Intervention group" required="false" property="instance.intervention_group" type="text" errors="errors.intervention_group"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="is_active" label="Is active" required="false" property="instance.is_active" type="checkbox" errors="errors.is_active"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="name" label="Name" required="true" property="instance.name" type="text" errors="errors.name"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="patient_type" label="Patient type" required="false" property="instance.patient_type" type="number" errors="errors.patient_type"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_type" label="Survey type" required="false" property="instance.survey_type" type="text" errors="errors.survey_type"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="total_questions" label="Total questions" required="true" property="instance.total_questions" type="number" errors="errors.total_questions"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="version" label="Version" required="true" property="instance.version" type="number" errors="errors.version"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/surveys" class="btn">Cancel</a>
+</div>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Sails App</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <!--  
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `<link>` tags, or asynchronously
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage 
+        of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+        By default, stylesheets from your `assets/styles` folder are included
+        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+        are supported. In production, your styles will be minified and concatenated into
+        a single file.
+        
+        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+            
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/ap-styles.css">
+    <link rel="stylesheet" href="/styles/bootstrap-theme.css">
+    <link rel="stylesheet" href="/styles/bootstrap.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/messaging.css">
+    <!--STYLES END-->
+  </head>
+
+  <body>
+    <%- body %>
+
+
+
+    <!--
+        Client-side Templates
+        ========================
+
+        HTML templates are important prerequisites of modern, rich client applications.
+        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+        that you load these templates client-side.
+
+        By default, your Gruntfile is configured to automatically load and precompile
+        client-side JST templates in your `assets/templates` folder, then
+        include them here automatically (between TEMPLATES and TEMPLATES END).
+        
+        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+
+            + Import templates from other directories
+            + Use a different template engine (handlebars, jade, dust, etc.)
+            + Internationalize your client-side templates using a server-side
+              stringfile before they're served.
+    -->
+
+    <!--TEMPLATES-->
+    <script type="text/javascript" src="/jst.js"></script>
+    <!--TEMPLATES END-->
+
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can always bring in JS files manually with `script` tags, or asynchronously
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
+      take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+      By default, files in your `assets/js` folder are included here
+      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+      CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+      and concatenated into a single file.
+      
+      To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+      For example, here are a few things you could do:
+          
+          + Change the order of your scripts
+          + Import scripts from other directories
+          + Use a different preprocessor, like TypeScript
+
+    -->
+
+    <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/jquery-1.11.0.js"></script>
+    <script src="/js/dependencies/angular.js"></script>
+    <script src="/js/dependencies/angular-cookies.js"></script>
+    <script src="/js/dependencies/angular-mocks.js"></script>
+    <script src="/js/dependencies/angular-resource.js"></script>
+    <script src="/js/dependencies/angular-route.js"></script>
+    <script src="/js/dependencies/bootstrap.js"></script>
+    <script src="/js/dependencies/d3.js"></script>
+    <script src="/js/dependencies/line-chart.js"></script>
+    <script src="/js/dependencies/moment.js"></script>
+    <script src="/js/dependencies/ng-file-upload-shim.js"></script>
+    <script src="/js/dependencies/ng-file-upload.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/application/services.js"></script>
+    <script src="/application/controllers/AnalyticsController.js"></script>
+    <script src="/application/controllers/AppController.js"></script>
+    <script src="/application/controllers/ChannelController.js"></script>
+    <script src="/application/controllers/DeviceController.js"></script>
+    <script src="/application/controllers/MessageController.js"></script>
+    <script src="/application/controllers/V1ClinicianBlockRandomizerController.js"></script>
+    <script src="/application/controllers/V1ClinicianCodeController.js"></script>
+    <script src="/application/controllers/V1EducationController.js"></script>
+    <script src="/application/controllers/V1HealthcareProviderContentController.js"></script>
+    <script src="/application/controllers/V1JobAuditLoggingController.js"></script>
+    <script src="/application/controllers/V1QuestionCategoryController.js"></script>
+    <script src="/application/controllers/V1QuestionCodeController.js"></script>
+    <script src="/application/controllers/V1QuestionTypeController.js"></script>
+    <script src="/application/controllers/V1RaceController.js"></script>
+    <script src="/application/controllers/V1SearchAuditLoggingController.js"></script>
+    <script src="/application/controllers/V1SendGridController.js"></script>
+    <script src="/application/controllers/V1SettingController.js"></script>
+    <script src="/application/controllers/V1SurveyAnswerController.js"></script>
+    <script src="/application/controllers/V1SurveyController.js"></script>
+    <script src="/application/controllers/V1SurveyQuestionController.js"></script>
+    <script src="/application/controllers/V1SurveyQuestionSkipLogicController.js"></script>
+    <script src="/application/controllers/V1TopicController.js"></script>
+    <script src="/application/controllers/V1TwilioController.js"></script>
+    <script src="/application/controllers/V1UserAuditLoggingController.js"></script>
+    <script src="/application/controllers/V1UserController.js"></script>
+    <script src="/application/controllers/V1UserSurveyAnswerController.js"></script>
+    <script src="/application/controllers/V1UserSurveyController.js"></script>
+    <script src="/application/controllers/V1VaccinationReminderController.js"></script>
+    <script src="/application/controllers/V1VideoAuditLoggingController.js"></script>
+    <script src="/application/controllers/V1VideoController.js"></script>
+    <script src="/application/controllers/V2ClinicianBlockRandomizerController.js"></script>
+    <script src="/application/controllers/V2ClinicianCodeController.js"></script>
+    <script src="/application/controllers/V2EducationController.js"></script>
+    <script src="/application/controllers/V2HealthcareProviderContentController.js"></script>
+    <script src="/application/controllers/V2JobAuditLoggingController.js"></script>
+    <script src="/application/controllers/V2QuestionCategoryController.js"></script>
+    <script src="/application/controllers/V2QuestionCodeController.js"></script>
+    <script src="/application/controllers/V2QuestionTypeController.js"></script>
+    <script src="/application/controllers/V2RaceController.js"></script>
+    <script src="/application/controllers/V2SearchAuditLoggingController.js"></script>
+    <script src="/application/controllers/V2SendGridController.js"></script>
+    <script src="/application/controllers/V2SettingController.js"></script>
+    <script src="/application/controllers/V2SurveyAnswerController.js"></script>
+    <script src="/application/controllers/V2SurveyController.js"></script>
+    <script src="/application/controllers/V2SurveyQuestionController.js"></script>
+    <script src="/application/controllers/V2SurveyQuestionSkipLogicController.js"></script>
+    <script src="/application/controllers/V2TopicController.js"></script>
+    <script src="/application/controllers/V2TwilioController.js"></script>
+    <script src="/application/controllers/V2UserAuditLoggingController.js"></script>
+    <script src="/application/controllers/V2UserController.js"></script>
+    <script src="/application/controllers/V2UserSurveyAnswerController.js"></script>
+    <script src="/application/controllers/V2UserSurveyController.js"></script>
+    <script src="/application/controllers/V2UserSurveyVideoController.js"></script>
+    <script src="/application/controllers/V2VaccinationReminderController.js"></script>
+    <script src="/application/controllers/V2VideoAuditLoggingController.js"></script>
+    <script src="/application/controllers/V2VideoController.js"></script>
+    <script src="/application/controllers.js"></script>
+    <script src="/application/directives.js"></script>
+    <script src="/application/app.js"></script>
+    <!--SCRIPTS END-->
+  </body>
+</html>

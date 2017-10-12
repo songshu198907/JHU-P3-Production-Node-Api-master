@@ -1,0 +1,29 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="skip_question_codes" label="Skip question codes" required="false" property="instance.skip_question_codes" type="text" errors="errors.skip_question_codes"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="survey_answer_id" label="Survey answer" required="false" property="instance.survey_answer_id" type="text" errors="errors.survey_answer_id"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/survey_question_skip_logics" class="btn">Cancel</a>
+</div>

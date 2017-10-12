@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col-md-3" ng-include src="'templates/views/partials/sidebar.html'">
+  </div>
+  <div class="col-md-9">
+    <ul class="breadcrumb">
+      <li>
+        <a href="#/index">Home</a>
+      </li>
+      <li class="active">Users</li>
+    </ul>
+    <div class="page-header">
+      <h1>Users</h1>
+      <a class="btn btn-primary" href="#/users/new">
+        <i class="fa fa-plus"></i>
+        New
+      </a>
+    </div>
+
+    <div class="alert alert-danger" ng-if="error">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+    </div>
+
+    <div class="alert" ng-if="instances.length == 0">
+      <h4>No users yet</h4>
+      There are no users to list.
+      <a class="btn btn-mini" href="#/users/new">Create a new one</a>
+    </div>
+
+    <div ng-if="instances.length > 0">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Actual Child Birth</th>
+            <th>Address</th>
+            <th>Cell Phone</th>
+            <th>City</th>
+            <th>Clinician Code</th>
+            <th>Clinic Name</th>
+            <th>Consent Accepted On</th>
+            <th>Contact Cell Phone</th>
+            <th>Contact Email</th>
+            <th>Contact Home Phone</th>
+            <th>Contact Name</th>
+            <th>Deactivated On</th>
+            <th>Education</th>
+            <th>Email</th>
+            <th>Expected Child Birth</th>
+            <th>First Name</th>
+            <th>Has Contact Users</th>
+            <th>Home Phone</th>
+            <th>Intervention Group</th>
+            <th>Is Deactive</th>
+            <th>Last Name</th>
+            <th>Parent Relationship Type</th>
+            <th>Parent User</th>
+            <th>Password</th>
+            <th>Password Confirmation</th>
+            <th>Password Digest</th>
+            <th>Patient Type</th>
+            <th>Postal Code</th>
+            <th>Race</th>
+            <th>Reason For Deactivation</th>
+            <th>Reset Password</th>
+            <th>Role</th>
+            <th>State</th>
+            <th>Updated User Profile</th>
+            <th>Vaccination Reminders</th>
+            <th>X Session</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="instance in instances">
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.actual_child_birth}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.address}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.cell_phone}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.city}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.clinician_code_id}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.clinic_name}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.consent_accepted_on}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.contact_cell_phone}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.contact_email}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.contact_home_phone}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.contact_name}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.deactivated_on}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.education_id}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.email}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.expected_child_birth}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.first_name}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.has_contact_users}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.home_phone}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.intervention_group}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.is_deactive}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.last_name}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.parent_relationship_type}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.parent_user_id}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.password}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.password_confirmation}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.password_digest}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.patient_type}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.postal_code}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.race_id}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.reason_for_deactivation}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.reset_password}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.role}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.state}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.updated_user_profile}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.vaccination_reminders}}</a></td>
+            <td><a ng-href="#/users/{{instance.id}}">{{instance.x_session_id}}</a></td>
+            <td class="text-center">
+              <a ng-href="#/users/{{instance.id}}/edit" rel="tooltip" title="Edit">
+                <i class="fa fa-pencil"></i>
+              </a>
+              &nbsp;
+              &nbsp;
+              <a ng-href="#/users" title="Delete" rel="tooltip nofollow" ng-click="destroy(instance)">
+                <i class="fa fa-trash-o"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <paginator></paginator>
+    </div>
+  </div>
+</div>

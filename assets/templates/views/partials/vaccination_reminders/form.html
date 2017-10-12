@@ -1,0 +1,29 @@
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage"> Please review the problems below</span><span ng-if="errorMessage"> {{errorMessage}}</span>
+</div>
+
+    
+        
+        
+        
+            
+            
+            <form-input name="message_text" label="Message text" required="true" property="instance.message_text" type="text" errors="errors.message_text"></form-input>
+        
+        
+    
+        
+        
+        
+            
+            
+            <form-input name="trigger_days_from_dob" label="Trigger days from dob" required="true" property="instance.trigger_days_from_dob" type="number" errors="errors.trigger_days_from_dob"></form-input>
+        
+        
+    
+
+<div class="form-actions">
+  <input class="btn btn-primary" name="commit" type="submit" value="Submit" ng-click="submit(instance)" ng-disabled="loading"/>
+  <a href="#/vaccination_reminders" class="btn">Cancel</a>
+</div>

@@ -1,0 +1,71 @@
+<ul class="breadcrumb">
+  <li><a href="#/index">Home</a></li>
+  <li><a href="#/user_survey_answers">User survey answers</a></li>
+  <li class="active">User survey answer</li>
+</ul>
+
+<div class="page-header">
+  <h1>User survey answer</h1>
+  <a class="btn btn-primary" ng-href="#/user_survey_answers/{{instance.id}}/edit">
+    <i class="fa fa-pencil"></i>
+    Edit
+  </a>
+</div>
+
+<div class="alert alert-danger" ng-if="error">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Error.</strong><span ng-if="!errorMessage">An unexpected error was encountered</span><span ng-if="errorMessage">{{errorMessage}}</span>
+</div>
+
+<table class="table table-striped table-hover" condensed="false" hover="true" striped="true">
+  <tbody>
+    <tr>
+      <td>Id</td>
+      <td>{{instance.id}}</td>
+    </tr>
+    <tr>
+      <td>Applied Skip Logic</td>
+      <td>{{instance.applied_skip_logic_id}}</td>
+    </tr>
+    <tr>
+      <td>Free Form Response</td>
+      <td>{{instance.free_form_response}}</td>
+    </tr>
+    <tr>
+      <td>Nextquestion</td>
+      <td>{{instance.nextquestion}}</td>
+    </tr>
+    <tr>
+      <td>Previousquestion</td>
+      <td>{{instance.previousquestion}}</td>
+    </tr>
+    <tr>
+      <td>Question Code</td>
+      <td>{{instance.question_code_id}}</td>
+    </tr>
+    <tr>
+      <td>Question Group</td>
+      <td>{{instance.question_group}}</td>
+    </tr>
+    <tr>
+      <td>Question Order</td>
+      <td>{{instance.question_order}}</td>
+    </tr>
+    <tr>
+      <td>Skipped</td>
+      <td>{{instance.skipped}}</td>
+    </tr>
+    <tr>
+      <td>Survey Answer</td>
+      <td>{{instance.survey_answer_id}}</td>
+    </tr>
+    <tr>
+      <td>Survey Question</td>
+      <td>{{instance.survey_question_id}}</td>
+    </tr>
+    <tr>
+      <td>User Survey</td>
+      <td>{{instance.user_survey_id}}</td>
+    </tr>
+  </tbody>
+</table>
