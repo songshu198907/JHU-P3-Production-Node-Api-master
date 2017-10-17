@@ -49,6 +49,10 @@ var transformAttributesForExactMatch = function(attributes) {
   if(undefined != attributes['matched_videos']) {
     newAttributes['matchedVideos'] = JSON.parse(attributes['matched_videos']);
   }
+
+  if(undefined != attributes['post_matched_videos']) {
+    newAttributes['postMatchedVideos'] = JSON.parse(attributes['post_matched_videos'])
+  }
   
   if(undefined != attributes['maternal_video_complete']) {
     newAttributes['maternalVideoComplete'] = DataUtils.toBoolean(attributes['maternal_video_complete']);
@@ -110,7 +114,8 @@ V2UserSurvey = module.exports = {
     'completition',
 'currentuseranswers',
 'firstQuestion',
-'matchedVideos'
+'matchedVideos',
+'postMatchedVideos'
   ],
   fileAttributes: [
     
@@ -226,6 +231,10 @@ V2UserSurvey = module.exports = {
     
       
         getMatchedVideos:function () { return this.matchedVideos; },
+
+        getPostMatchedVideos:function () {
+            return this.postMatchedVideos;
+        },
       
     
   
@@ -628,7 +637,31 @@ V2UserSurvey = module.exports = {
     }
     sails.log.debug("Query scope was called with attributes " + util.inspect(attributes) + " and user attributes " + util.inspect(userAttributes));
     return criteria.query();
-  }
+  },
+
+    getPostVideoSurveyScope: function(attributes, userAttributes, offset, limit) {
+        attributes = attributes || {};
+        userAttributes = userAttributes || {};
+        offset = offset || null;
+        limit = limit || null;
+
+        var criteria = new Criteria(V2UserSurvey);
+        if(userAttributes['user_id'] && userAttributes['user_id'] != '') {
+            criteria = criteria.and({ userId: userAttributes['user_id'] });
+        }
+        if(attributes['user_survey_id'] && attributes['user_survey_id'] != '') {
+            criteria = criteria.and({ id: Number(attributes['user_survey_id']) });
+        }
+        criteria = criteria.orderBy('id ASC');
+        if(offset) {
+            criteria = criteria.offset(offset);
+        }
+        if(limit) {
+            criteria = criteria.limit(limit);
+        }
+        sails.log.debug("Query scope was called with attributes " + util.inspect(attributes) + " and user attributes " + util.inspect(userAttributes));
+        return criteria.query();
+    }
   ,
     checkSurveyExistsScope: function(attributes, userAttributes, offset, limit) {
       attributes = attributes || {};

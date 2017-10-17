@@ -144,7 +144,8 @@ done();
               sql  += 'and v.is_active = 1 ';
               sql  += 'and usv.video_type = \'pediatric\' ';
               sql  += 'where usv.user_survey_id = ' + models[0].id;
-              
+
+
               sails.log.debug('sqlOutput',sql);
               self.models('Video').query(sql, function findMatchingVideos(err, matchingVideos){
                   if(err){
@@ -153,6 +154,9 @@ done();
                   var maternalArray=_.filter(matchingVideos, function(video){ return video.question_group == 'maternal'; });
                   var pediatricArray=_.filter(matchingVideos, function(video){ return video.question_group == 'pediatric'; });
 
+                  // Here we should consider  about how to change the database to identify post 30 -day videos for both groups and then change the above sql accordingly.
+                  // var postMaternalArray =
+                  // var postPediatricArray =
                   /*use cloud front url instead of S3 bucket */
                   maternalArray && _.each(maternalArray,function(video){
                     if(video.video_url && video.video_url!==""){
@@ -644,7 +648,48 @@ done();
     }
   },
 
-  beforeCheckSurveyExistsScope: function(values, req, done) {
+    beforeGetPostVideoSurveyScope: function(values, req, done) {
+
+        done();
+
+    },
+
+    afterGetPostVideoSurveyScope: function(models, req, done) {
+
+        // Here we need to decide how to find the 30-day video. What I assume here is add a video_type column in survey table. But this requires to change the schema of table.
+        if (process.env.NODE_ENV && process.env.NODE_ENV === 'test') return done();
+        var self=this;
+        var filterModels=[];
+        if(models.length > 0 ){
+            var sql="SELECT user_surveys.* From user_surveys,surveys WHERE surveys.survey_type='video' AND user_surveys.survey_id=surveys.id and surveys.video_type='30day' and user_surveys.user_id="+req.context.current_user.id +
+                " ORDER BY user_surveys.id asc "+
+                "LIMIT 1;";
+            self.models('UserSurvey').query(sql,function(err,result){
+
+                if(result && result.length>0 && result[0].id){
+                    _.each(models,function(model){
+                        if(!model.isComplete && model.id==result[0].id){//filter surveys that are incomplete
+                            filterModels.push(model);
+                        }
+                    });
+                    models=filterModels;
+                    req.res.send(200,models);
+                    return false;
+
+                }else{
+                    req.res.send(200,[]);
+                    return false;
+                }
+
+
+            });
+        }else{
+            done();
+        }
+    },
+
+
+    beforeCheckSurveyExistsScope: function(values, req, done) {
     
  done();
 

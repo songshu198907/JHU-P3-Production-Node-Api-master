@@ -143,6 +143,15 @@ done();
 
   },
 
+    beforeGetPostVideoSurveyScope: function(req,done){
+        done();
+    },
+
+    afterGetPostVideoSurveyScope: function(req, res, done) {
+
+        done();
+
+    },
   beforeCheckSurveyExistsScope: function(req, done) {
     
 done();

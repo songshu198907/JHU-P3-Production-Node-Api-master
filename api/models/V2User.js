@@ -175,6 +175,11 @@ var transformAttributesForExactMatch = function(attributes) {
   if(undefined != attributes['x_session_id']) {
     newAttributes['xSessionId'] = attributes['x_session_id'];
   }
+
+  //add create timestamp
+  if(undefined != attributes['created_at']){
+    newAttributes['createdAt'] = attributes['created_at']]
+  }
   
   return newAttributes;
 };
@@ -704,11 +709,21 @@ V2User = module.exports = {
     
       
         getXSessionId:function () { return this.xSessionId; },
-      
-    
-  
 
-  toJSON: function () {
+      //Column to constains when this account is registered. And with time we will calculate when to run 30 day survey. Also this requires we change the user table to have a new column.
+
+      createdAt:{
+          columnName:'created_at',
+          type: 'datetime'
+      },
+
+      getCreatedAt:function () { return this.createdAt; },
+
+
+
+
+
+      toJSON: function () {
     var obj = this;
     
       
@@ -725,6 +740,9 @@ V2User = module.exports = {
     
       
         obj.clinicName = this.getClinicName();
+
+        // return account created timestamp
+        obj.createdAt = this.getCreatedAt();
       
     
       
